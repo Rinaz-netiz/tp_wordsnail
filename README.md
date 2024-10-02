@@ -1,5 +1,10 @@
 # Game wordsnail
 *Getting started*
+
+[Django's official page](https://www.djangoproject.com/start/) that help you write our project.
+
+[Example](https://github.com/Rinaz-netiz/find_rout) project that you can focus on.
+
 1. Clone the repo to your local machine
 2. Create venv `python -m venv env` and activate it
 3. Install requirements.txt `pip install -r requirements.txt`
