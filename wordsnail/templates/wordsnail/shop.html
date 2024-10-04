@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<p>sjd</p>
+    {% for el in ls %}
+    <img src="{{ el.picture.url }}"> - {{el.price}} - {{ el.picture }}<br>
+    {% endfor %}
 </body>
 </html>
