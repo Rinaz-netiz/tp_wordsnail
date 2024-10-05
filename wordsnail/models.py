@@ -4,6 +4,21 @@ from django.db import models
 from django.template.defaultfilters import default
 
 
+class Users(models.Model):
+    id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    currentskin = models.ImageField(upload_to="shopThings/gifs/", default="shopThings/gifs/6152297562.jpg")  # test
+    money = models.IntegerField(default=2100)
+
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        verbose_name = 'Users'
+        verbose_name_plural = 'Users'
+
+
 class Shop(models.Model):
 
     id = models.IntegerField(primary_key=True)
@@ -19,9 +34,9 @@ class Shop(models.Model):
         verbose_name_plural = 'Shops'
 
 
-class Purchased(models.Model):
+class Purchased(models.Model): # купленные вещи
     id = models.IntegerField(primary_key=True)
-    user_id = models.IntegerField(default=0) # Внешний ключ на таблицу с юзерами
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE) # Внешний ключ на таблицу с юзерами
     things_id = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
     def __str__(self):

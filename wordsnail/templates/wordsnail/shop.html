@@ -8,11 +8,14 @@
         <img src="{{ el.picture.url }}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">{{el.name}}</h5>
-            {% if el.id not in id_lis %}
-                <button class="btn btn-warning">{{el.price}}$$</button>
-            {% else %}
-                <button class="btn btn-warning">Применить</button>
-            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {% if el.id not in id_lis %}
+                    <button class="btn btn-warning" type="submit" name="{{el.id}}">{{el.price}}$$</button>
+                {% else %}
+                    <button class="btn btn-warning" type="submit" name="{{el.id}}">Применить</button>
+                {% endif %}
+            </form>
 
         </div>
     </div>
