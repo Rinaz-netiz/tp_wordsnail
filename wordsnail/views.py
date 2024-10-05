@@ -9,9 +9,8 @@ __all__ = (
     "shop"
 )
 
-'''Временные переменные для теста (пока нет таблицы пользователей)'''
-current_user_id = 1  # временный айди пользователя
-current_money = 2100  # временые деньги
+'''Временные переменные для теста'''
+current_user_id = 4  # временный айди пользователя
 
 
 def home(request):
@@ -22,31 +21,32 @@ def shop(request):  # страница магазина
     things_in_shop = Shop.objects.all()  # все вещи из магазина
     buy_yet = Purchased.objects.filter(user_id = current_user_id)
     id_lis = [el.things_id.id for el in buy_yet]  # список id вещей, которые уже купил user
+    user = Users.objects.filter(id = current_user_id).first()
 
     if request.method == 'POST':
-        add_things(request.POST, id_lis, things_in_shop)
+        add_things(request.POST, id_lis, things_in_shop, user)
         return redirect('shop')
 
     return render(request, "wordsnail/shop.html", {"things_in_shop" : things_in_shop,
                                                    "user_id": current_user_id,
                                                    "id_lis": id_lis,
-                                                   "money": current_money,})
+                                                   "money": user.money,
+                                                   "skin": user.currentskin})
 
 
-def add_things(mypost, id_lis, things_in_shop): # функция для покупки или смены вещи
+def add_things(mypost, id_lis, things_in_shop, user): # функция для покупки или смены вещи
     for el in things_in_shop:
         if str(el.id) in mypost:
             if el.id not in id_lis:  # покупка
-                if current_money > el.price:
-                    """Поменять количество денег в таблице Users"""
+                if user.money >= el.price:
+                    user.money -= el.price
                     buy = Purchased()
                     buy.things_id = el
-                    buy.user_id = current_user_id
+                    buy.user_id = user
                     buy.save()
             else: # меняем скин
-                '''В моделе пользователей будет поле для хранения пути к теущему скиину'''
-                pass
-
+                user.currentskin = things_in_shop.filter(id = el.id).first().picture
+            user.save()
 
 
 
