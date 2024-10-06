@@ -8,7 +8,6 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
-Artem2006 - arstep2006 (superuser admin)
 """
 import os
 from pathlib import Path
