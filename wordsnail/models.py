@@ -1,7 +1,6 @@
 from django.db import models
 
 class Raiting(models.Model):
-    id = models.IntegerField(primary_key=True)
     user_id = models.IntegerField()
     raiting = models.IntegerField()
     count = models.IntegerField()
