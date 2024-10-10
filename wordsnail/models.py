@@ -5,9 +5,10 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    current_skin = models.ImageField(upload_to="shopThings/gifs/", default="shopThings/gifs/6152297562.jpg")
+    #current_skin = models.ImageField(upload_to="shopThings/gifs/", default="shopThings/gifs/6152297562.jpg")
     money = models.IntegerField(default=0)
-    arr_skins = models.ManyToManyField(Shop)
+    rating = models.IntegerField(default=0)
+    #arr_skins = models.ManyToManyField(Shop)
 
     def __str__(self):
         return self.user.username
