@@ -1,6 +1,8 @@
+from django.db import models
+from django.template.defaultfilters import default
 from optparse import make_option
 
-<<<<<<< HEAD
+
 class Raiting(models.Model):
     user_id = models.IntegerField()
     raiting = models.IntegerField()
@@ -12,9 +14,6 @@ class Raiting(models.Model):
     class Meta:
         verbose_name = "Raiting"
         verbose_name_plural = "Raitings"
-=======
-from django.db import models
-from django.template.defaultfilters import default
 
 
 class Shop(models.Model):
@@ -44,4 +43,4 @@ class Users(models.Model):
     class Meta:
         verbose_name = 'Users'
         verbose_name_plural = 'Users'
->>>>>>> master
+
