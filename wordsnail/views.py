@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+from django.shortcuts import render
+from .models import Raiting
+=======
 from traceback import print_tb
+>>>>>>> master
 
 
 from django.shortcuts import render, redirect
@@ -7,8 +12,10 @@ from .utils import add_skin, change_skin
 
 __all__ = (
     "home",
+    "raiting",
     "shop"
 )
+
 
 '''Временные переменные для теста'''
 current_user_id = 3  # временный айди пользователя
@@ -16,6 +23,11 @@ current_user_id = 3  # временный айди пользователя
 
 def home(request):
     return render(request, "wordsnail/home.html")
+
+
+def raiting(request):
+    raiting = Raiting.objects.all().order_by("-raiting")
+    return render(request, "wordsnail/raiting.html", {"r": raiting})
 
 
 def shop(request):  # страница магазина

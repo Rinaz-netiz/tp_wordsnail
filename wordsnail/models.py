@@ -1,7 +1,19 @@
-from optparse import make_option
-
 from django.db import models
 from django.template.defaultfilters import default
+from optparse import make_option
+
+
+class Raiting(models.Model):
+    user_id = models.IntegerField()
+    raiting = models.IntegerField()
+    count = models.IntegerField()
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta:
+        verbose_name = "Raiting"
+        verbose_name_plural = "Raitings"
 
 
 class Shop(models.Model):
@@ -31,3 +43,4 @@ class Users(models.Model):
     class Meta:
         verbose_name = 'Users'
         verbose_name_plural = 'Users'
+

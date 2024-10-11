@@ -9,8 +9,9 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+wordsnail/migrations
 develop-eggs/
-dist/
+dist/ø
 downloads/
 eggs/
 .eggs/
