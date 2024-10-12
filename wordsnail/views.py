@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from wordsnail.models import Users, Shop, Raiting
-from wordsnail.utils import add_skin, change_skin, register_new_user
+from wordsnail.models import Shop, Raiting, User
+from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo
 from wordsnail.forms import RegisterUserForm
 
 
@@ -12,7 +12,6 @@ __all__ = (
     "raiting",
     "shop",
 )
-
 
 def home(request):
     return render(request, "wordsnail/home.html")
@@ -36,23 +35,20 @@ def raiting(request):
 
 
 def shop(request):  # страница магазина
-    ...
-    # things_in_shop = Shop.objects.all()
-    # user = Users.objects.get(id = current_user_id)
-    # id_lis = [el.id for el in user.arr_skins.all()]
-    #
-    # if request.method == 'POST':
-    #     id_picture = int(request.POST.get('act'))
-    #     if id_picture in id_lis:
-    #         change_skin(id_picture, current_user_id)
-    #     else:
-    #         add_skin(id_picture, current_user_id)
-    #     return redirect('shop')
-    #
-    # return render(request, "wordsnail/shop.html", {"things_in_shop" : things_in_shop,
-    #                                                "user_id": current_user_id,
-    #                                                "id_lis": id_lis,
-    #                                                "money": user.money,
-    #                                                "skin": user.current_skin})
-    #
+    things_in_shop, current_user_id, id_lis, user_profile = getinfo(request)
+
+    if request.method == 'POST':
+        id_picture = int(request.POST.get('act'))
+        if id_picture in id_lis:
+            change_skin(id_picture, current_user_id)
+        else:
+            add_skin(id_picture, current_user_id)
+        return redirect('shop')
+
+    return render(request, "wordsnail/shop.html", {"things_in_shop" : things_in_shop,
+                                                   "user_id": current_user_id,
+                                                   "id_lis": id_lis,
+                                                   "money": user_profile.money,
+                                                   "skin": user_profile.current_skin})
+
 
