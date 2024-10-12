@@ -24,15 +24,21 @@ def change_skin(id_picture, current_user_id):
     user_profile.save()
 
 
-def getinfo(request):
+def getinfo(user):
     things_in_shop = Shop.objects.all()
-    user = request.user
-    if not user.is_authenticated:
-        return redirect('index')
     current_user_id = user.id
     user_profile = user.profile
     id_lis = [el.id for el in user_profile.arr_skins.all()]
     return things_in_shop, current_user_id, id_lis, user_profile
+
+
+def postrequest(request, id_lis, current_user_id):
+    id_picture = int(request.POST.get('act'))
+    if id_picture in id_lis:
+        change_skin(id_picture, current_user_id)
+    else:
+        add_skin(id_picture, current_user_id)
+    return redirect('shop')
 
 
 def register_new_user(request):

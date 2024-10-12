@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from wordsnail.models import Shop, Raiting, User
-from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo
+from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo, postrequest
 from wordsnail.forms import RegisterUserForm
 
 
@@ -35,15 +35,13 @@ def raiting(request):
 
 
 def shop(request):  # страница магазина
-    things_in_shop, current_user_id, id_lis, user_profile = getinfo(request)
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('index')
 
+    things_in_shop, current_user_id, id_lis, user_profile = getinfo(user)
     if request.method == 'POST':
-        id_picture = int(request.POST.get('act'))
-        if id_picture in id_lis:
-            change_skin(id_picture, current_user_id)
-        else:
-            add_skin(id_picture, current_user_id)
-        return redirect('shop')
+        return postrequest(request, id_lis, current_user_id)
 
     return render(request, "wordsnail/shop.html", {"things_in_shop" : things_in_shop,
                                                    "user_id": current_user_id,
