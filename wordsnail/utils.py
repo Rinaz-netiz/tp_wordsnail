@@ -1,24 +1,26 @@
 from django.contrib.auth import login
 
-from wordsnail.models import Shop, Users
+from wordsnail.models import Shop, User
 from wordsnail.forms import RegisterUserForm
 
 
 def add_skin(id_picture, current_user_id):
     """Функция добавляет юзеру скин"""
     skin = Shop.objects.get(id = id_picture)
-    user = Users.objects.get(id = current_user_id)
-    if user.money >= skin.price:
-        user.money -= skin.price
-        user.arr_skins.add(skin)
-        user.save()
+    user = User.objects.get(id = current_user_id)
+    user_profile = user.profile
+    if user_profile.money >= skin.price:
+        user_profile.money -= skin.price
+        user_profile.arr_skins.add(skin)
+        user_profile.save()
 
 
 def change_skin(id_picture, current_user_id):
     """Смена текущего скина"""
-    user = Users.objects.get(id=current_user_id)
-    user.current_skin = Shop.objects.get(id = id_picture).picture
-    user.save()
+    user = User.objects.get(id=current_user_id)
+    user_profile = user.profile
+    user_profile.current_skin = Shop.objects.get(id = id_picture).picture
+    user_profile.save()
 
 
 def register_new_user(request):
