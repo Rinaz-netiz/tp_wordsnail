@@ -1,14 +1,22 @@
 {% extends 'wordsnail/base.html' %}
 
 {% block yourhtml %}
-    {% if user.is_authenticated %}
-    Hi {{ user.username }}!
-    <form action="{% url 'logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Log Out</button>
-    </form>
-    {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a>
-    {% endif %}
+    <br>
+    <br><br><br>
+    <div class="container">
+        <!-- Левый блок -->
+        <div class="left-block">
+            <h1 class="logo">WordSnail</h1>
+            <p class="users-count">TOTAL NUMBER OF USERS: 10</p>
+        </div>
+
+        <!-- Правый блок -->
+        <div class="right-block">
+            <h1 class="logo">WordSnail</h1>
+            <p class="description">
+                Едешь в полностью забитом автобусе, тебя обжимают потные wicked пассажиры, а воздуха уже не хватает, и все, чего ты хочешь — умереть поскорее?<br><br>
+                Сделай правильный choice — запусти WORDSNAIL и покажи всем, кто здесь самый amazing clever boy — guess the слово первым и получи место у водителя...
+            </p>
+        </div>
+    </div>
 {% endblock %}

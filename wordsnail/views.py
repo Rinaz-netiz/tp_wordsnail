@@ -23,11 +23,16 @@ __all__ = (
     "play",
     "get_random_word",
     "put_cash",
+    "loginhome"
 )
 
 
 def home(request):
     return render(request, "wordsnail/home.html")
+
+
+def loginhome(request):
+    return render(request, "wordsnail/loginhome.html")
 
 
 def register(request):
@@ -50,7 +55,7 @@ def raiting(request):
 
 def shop(request):  # страница магазина
     if not user_is_authenticated(request):
-        return redirect('index')
+        return redirect('loginhome')
 
     things_in_shop, current_user_id, id_lis, user_profile = getinfo(request.user)
     if request.method == 'POST':
