@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let wordLen = 0;
     let countWrongAnswers = 0;
     let prize = 65;
+    let ratingSize = 33;
 
     // Запрашиваем случайное слово с сервера
     fetch('/api/random-word/')
@@ -93,13 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function submitGuess() {
+        if (countWrongAnswers
+
         if (currentGuess === solution) {
             markRow("correct");
             // alert("Поздравляем! Вы угадали слово!");
             showWinAlert();
             // message.textContent = "Поздравляем! Вы угадали слово!";
             const data = { 
-                money: calculatingReward(countWrongAnswers)
+                money: calculatingReward(countWrongAnswers),
+                rating: "..."
             }
 
             fetch('/api/put-cash/', {
@@ -255,6 +259,11 @@ function getCSRFToken() {
     }
     return '';
 }
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+  
 
 
 function goHome() {
