@@ -6,14 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentRow = [];
     let currentGuess = "";
     let rowCount = 0;
-    let word_len = 0;
+    let wordLen = 0;
+    let countWrongAnswers = 0;
+    let prize = 65;
 
     // Запрашиваем случайное слово с сервера
     fetch('/api/random-word/')
         .then(response => response.json())
         .then(data => {
             solution = data.word.toLowerCase();
-            word_len = Number(data.len);
+            wordLen = Number(data.len);
             console.log("Загаданное слово:", solution); // Для проверки в консоли
             createEmptyRow(); // Создаем начальную строку пустых плиток после получения слова
         })
@@ -28,14 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = document.createElement("div");
         row.classList.add("row");
 
-        if(word_len == 4) 
+        if(wordLen == 4) 
             row.classList.add("row_for_4_letters");
-        else if(word_len == 5)
+        else if(wordLen == 5)
             row.classList.add("row_for_5_letters");
-        else if(word_len == 6)
+        else if(wordLen == 6)
             row.classList.add("row_for_6_letters");
 
-        for (let i = 0; i < word_len; i++) {
+        for (let i = 0; i < wordLen; i++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
             row.appendChild(cell);
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (message.textContent) message.textContent = "";
 
-        if (/^[a-zA-Zа-яА-ЯёЁ]$/.test(event.key) && currentGuess.length < word_len) {
+        if (/^[a-zA-Zа-яА-ЯёЁ]$/.test(event.key) && currentGuess.length < wordLen) {
             // Добавляем букву в текущее предположение
             currentGuess += event.key.toLowerCase();
             updateCurrentRow();
@@ -61,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Удаляем последнюю букву
             currentGuess = currentGuess.slice(0, -1);
             updateCurrentRow();
-        } else if (event.key === "Enter" && currentGuess.length === word_len) {
+        } else if (event.key === "Enter" && currentGuess.length === wordLen) {
             submitGuess();
         }
     }
@@ -77,6 +79,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function calculatingReward(count) {
+        if(count == 0)
+            return prize
+
+        if(count == 6)
+            return 0;
+
+        return (prize - prize%count) / count;
+    }
+
     function submitGuess() {
         if (currentGuess === solution) {
             markRow("correct");
@@ -89,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (++rowCount < 6) {
                 createEmptyRow();
                 currentGuess = "";
+                countWrongAnswers++;
             } else {
                 showLoseAlert()
                 // message.textContent = `Игра окончена! Загаданное слово: "${solution}".`;
@@ -127,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="alert-content">
                 <h2>Вы победили!</h2>
                 <p>Поздравляем! Вы справились с задачей. Попробуйте ещё раз для нового вызова!</p>
+                <p>Ваша награда: &#128012; ${calculatingReward(countWrongAnswers)}</p>
                 <button onclick="closeAlert()">Закрыть</button>
             </div>
         `;
@@ -136,10 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.querySelector('.alert-content h2').style.color = "#2ecc71";
         document.querySelector('.alert-content button').style.backgroundColor = "#2ecc71";
-        console.log(document.body.querySelector('.alert-content button'));
-        // console.log(document.body.querySelector('.alert-content button').style.color);
-    
-    
+
         // Показываем алерт с помощью класса "show"
         setTimeout(() => {
             alertContainer.classList.add('show');
@@ -156,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="alert-content">
                 <h2>Вы проиграли!</h2>
                 <p>Правильное слово: ${solution}</p>
+                <p>Ваша награда: &#128012; ${calculatingReward(countWrongAnswers)}</p>
                 <button onclick="closeAlert()">Закрыть</button>
             </div>
         `;
