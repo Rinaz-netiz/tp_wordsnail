@@ -6,12 +6,15 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+
+from wordsnail.forms import RegisterUserForm
+from django.contrib.auth.decorators import login_required
 from wordsnail.models import Shop, Raiting, User
 from wordsnail.utils import (register_new_user, change_skin,
                              add_skin, getinfo, postrequest,
                              balance_replenishment, user_is_authenticated)
-from wordsnail.forms import RegisterUserForm
 from wordsnail.words_for_game import WORDS
+
 
 
 __all__ = (
@@ -42,10 +45,23 @@ def register(request):
 
 
 def raiting(request):
-    raiting = Raiting.objects.all().order_by("-raiting")
-    return render(request, "wordsnail/raiting.html", {"r": raiting})
+    all_ratings = Rating.objects.all().order_by('-rating')
 
+    user_place = None
+    current_user_rating = None
 
+    if request.user.is_authenticated:
+        for index, rating in enumerate(all_ratings):
+            rating.place = index + 1
+            if rating.user_id == request.user:
+                user_place = index + 1
+                current_user_rating = rating
+
+    return render(request, 'wordsnail/rating.html', {
+        'r': all_ratings,
+        'current_user_rating': current_user_rating,
+        'user_place': user_place,
+    })
 def shop(request):  # страница магазина
     if not user_is_authenticated(request):
         return redirect('index')

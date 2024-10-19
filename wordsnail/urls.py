@@ -6,7 +6,7 @@ from .views import *
 
 urlpatterns = [
     path("register/", register, name='register'),
-    path("raiting/", raiting, name="raiting"),
+    path("rating/", raiting, name="rating"),
     path("shop/", shop, name="shop"),
     path("play/", play, name="play"),
     path("entry/", include('django.contrib.auth.urls')),

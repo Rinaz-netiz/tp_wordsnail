@@ -1,0 +1,83 @@
+{% extends 'wordsnail/base.html' %}
+
+{% block yourhtml %}
+<div class="table-container-unique">
+    <!-- Проверяем, авторизован ли пользователь -->
+    {% if request.user.is_authenticated %}
+        <!-- Таблица Your Ranking -->
+        <h4 class="your-ranking-title">Your Ranking</h4>
+        <table class="unique-table">
+            <thead>
+                <tr>
+                    <th class="unique-th">Place</th>
+                    <th class="unique-th">Nickname</th>
+                    <th class="unique-th">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="unique-ranking-row">
+                    <td class="unique-td">{{ user_place }}</td>  <!-- Актуальное место авторизованного пользователя -->
+                    <td class="unique-td">{{ request.user.username }}</td>  <!-- Никнейм авторизованного пользователя -->
+                    <td class="unique-td">{{ current_user_rating.rating }}</td>  <!-- Рейтинг авторизованного пользователя -->
+                </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <h3 class="your-ranking-title">Регистрируйся и завоюй первое место!</h3>
+    {% endif %}
+
+    <!-- Поле для поиска -->
+    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Поиск по никнейму..." />
+
+    <!-- Таблица всех пользователей -->
+    <h4 class="your-ranking-title">Leaderboard</h4>
+    <table class="unique-table" id="leaderboardTable">
+        <thead>
+            <tr>
+                <th class="unique-th">Place</th>
+                <th class="unique-th">Nickname</th>
+                <th class="unique-th">Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for el in r %}
+                <tr class="unique-data-row {% if el.user_id == request.user %}highlight{% endif %}">
+                    <td class="unique-td">{{ forloop.counter }}</td>  <!-- Порядковый номер (место) -->
+                    <td class="unique-td">{{ el.user_id.username }}</td>  <!-- Имя пользователя -->
+                    <td class="unique-td">{{ el.rating }}</td>  <!-- Рейтинг -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableContainer = document.querySelector('.table-container-unique');
+        tableContainer.classList.add('visible'); // Добавляем класс для запуска анимации
+    });
+
+    // Функция фильтрации таблицы
+    function filterTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('leaderboardTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) { // Пропускаем заголовок
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+
+            // Проверяем каждую ячейку в строке
+            for (let j = 1; j < cells.length; j++) { // Начинаем с 1, чтобы пропустить "Место"
+                if (cells[j].innerText.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = match ? "" : "none"; // Показываем или скрываем строку
+        }
+    }
+</script>
+{% endblock %}
