@@ -28,7 +28,7 @@
             <span class="stars">{{ user.profile.money }}✨</span>
             <a href="{% url 'shop' %}" class="shop">Shop</a>
             <a href="{% url 'rating' %}" class="rating">Rating</a>  <!-- Ссылка на страницу Rating-->
-            <a href="#" class="play">Play</a>  <!-- Ссылка на страницу игры -->
+            <a href="{% url 'play' %}" class="play">Play</a>  <!-- Ссылка на страницу игры -->
 
         </div>
         {% if user.is_authenticated %}
@@ -45,6 +45,5 @@
 
     {% block yourhtml %}
     {% endblock %}
-<script src="{% static 'wordsnail/js/script.js' %}"></script>
 </body>
 </html>

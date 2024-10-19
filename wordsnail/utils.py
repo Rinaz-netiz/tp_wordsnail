@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect
+from django.core.exceptions import ImproperlyConfigured
 
 from wordsnail.models import Shop, User
 from wordsnail.forms import RegisterUserForm
@@ -47,5 +48,27 @@ def register_new_user(request):
     if form.is_valid():
         user = form.save()
         login(request, user)
+
+
+def user_is_authenticated(request):
+    return request.user.is_authenticated
+
+
+def balance_replenishment(user, money):
+    if not money:
+        return {"Code": 400, "details": "Money is empty"}
+
+    try:
+        user = User.objects.get(id=user.id).profile
+    except ImproperlyConfigured:
+        return {"Code": 500, "details": "ImproperlyConfigured"}
+
+    user.money += int(money)
+    user.save()
+
+    return {"Code": 200, "details": "All ok"}
+
+
+
 
 
