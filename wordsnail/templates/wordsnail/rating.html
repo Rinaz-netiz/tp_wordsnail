@@ -5,7 +5,7 @@
     <!-- Проверяем, авторизован ли пользователь -->
     {% if request.user.is_authenticated %}
         <!-- Таблица Your Ranking -->
-        <h3 class="your-ranking-title">Your Ranking</h3>
+        <h4 class="your-ranking-title">Your Ranking</h4>
         <table class="unique-table">
             <thead>
                 <tr>
@@ -30,7 +30,7 @@
     <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Поиск по никнейму..." />
 
     <!-- Таблица всех пользователей -->
-    <h3 class="your-ranking-title1">Leaderboard</h3>
+    <h4 class="your-ranking-title">Leaderboard</h4>
     <table class="unique-table" id="leaderboardTable">
         <thead>
             <tr>

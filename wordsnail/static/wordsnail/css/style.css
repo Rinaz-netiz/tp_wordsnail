@@ -275,11 +275,13 @@ h1 {
     background-color: rgba(212, 237, 218, 0.9); /* Полупрозрачный фоновый цвет для заголовков */
     font-weight: bold; /* Жирный текст для заголовков */
     letter-spacing: 0.05em; /* Немного увеличенный интервал между буквами */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 
 }
 
 .unique-data-row {
     background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон для строк с данными */
+
 }
 
 .unique-data-row:nth-child(even) {
@@ -290,6 +292,7 @@ h1 {
     background-color: rgba(144, 238, 144, 0.2); /* Лёгкий зелёный оттенок при наведении */
     transform: translateY(-3px); /* Лёгкий сдвиг вверх при наведении */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Выразительная тень при наведении */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .unique-transparent-row {
@@ -315,7 +318,7 @@ h1 {
 .your-ranking-title {
     font-family: 'Montserrat', sans-serif; /* Основной шрифт */
     text-align: center; /* Центрируем текст */
-    font-size: 1.5em; /* Размер шрифта для заголовка */
+    font-size: 1.75em; /* Размер шрифта для заголовка */
     margin: 20px 0; /* Отступы сверху и снизу */
     font-weight: bold; /* Жирный текст */
     color: #333; /* Цвет текста, можно изменить по желанию */
@@ -348,15 +351,19 @@ h1 {
         justify-content: center; /* Центрируем содержимое по горизонтали */
         margin-bottom: 20px; /* Отступ снизу для блока поиска */
 }
-.your-ranking-title1 {
-    font-family: 'Montserrat', sans-serif; /* Основной шрифт */
-    text-align: center; /* Центрируем текст */
-    font-size: 1.5em; /* Размер шрифта для заголовка */
-    margin: 30px 0; /* Отступы сверху и снизу */
-    font-weight: bold; /* Жирный текст */
-    color: #333; /* Цвет текста, можно изменить по желанию */
-}
 #searchInput:focus {
     border-color: green; /* Цвет рамки при фокусе */
     outline: none; /* Убираем стандартный outline */
+}
+.table-container-unique {
+    opacity: 0;
+    filter: blur(10px); /* Начальная размытость */
+    transform: translateY(20px); /* Сдвиг вниз */
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Плавный переход */
+}
+
+.table-container-unique.visible {
+    opacity: 1;
+    filter: blur(0); /* Убираем размытость */
+    transform: translateY(0); /* Возвращаем на место */
 }
