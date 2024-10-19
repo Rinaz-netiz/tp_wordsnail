@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 from wordsnail.forms import RegisterUserForm
-from wordsnail.models import Shop, Rating, User
 from wordsnail.utils import (register_new_user, order_by_rating,
                              getinfo, postrequest,
                              balance_replenishment, user_is_authenticated)
