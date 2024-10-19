@@ -23,25 +23,28 @@
         <div class="logo">
             <a href="/" class="dg">W</a>
         </div>
-        <div class="chat">
-            <input type="text" placeholder="Chat here.......">
-        </div>
         <div class="info">
-            <span class="stars">{{ user.profile.money }}✨</span>
+
             <a href="{% url 'shop' %}" class="shop">Shop</a>
-            <a href="{% url 'rating' %}" class="rating">Rating</a>  <!-- Ссылка на страницу Rating-->
-            <a href="{% url 'play' %}" class="play">Play</a>  <!-- Ссылка на страницу игры -->
+            <a href="{% url 'play' %}" class="play">Play</a>
+            <a href="{% url 'rating' %}" class="rating">Rating</a>
+             <!-- Ссылка на страницу игры -->
+
+            <span class="stars">{{ user.profile.money }}&#128012</span>
 
         </div>
         {% if user.is_authenticated %}
 
         <div class="user">
-            <a href="/" class="button-link">Выйти</a> <!-- Сделать выход нада -->
-            <br>
             <div class="user-icon">{{ user.username }}</div>
+            <br>
+            <a href="/" class="button-link">Log out</a> <!-- Сделать выход нада -->
         </div>
         {% else %}
-        <a href="/" class="button-link">Войти</a> <!-- побыстрее как то -->
+        <div class="button-container">
+        <a href="/" class="button-link">Registration</a>
+        <a href="/" class="button-link">Login</a>
+    </div>
         {% endif %}
     </nav>
 

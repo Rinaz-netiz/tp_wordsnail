@@ -22,21 +22,22 @@
 }
 
 .unique-th, .unique-td {
-    font-family: 'Montserrat', sans-serif; /* Основной шрифт */
-    padding: 15px; /* Отступы в ячейках */
-    text-align: center; /* Выравнивание текста по центру */
-    border: none; /* Убираем границы ячеек */
-    border-radius: 20px; /* Увеличенное закругление углов */
-    width: 33.33%; /* Устанавливаем равномерную ширину для ячеек */
-    background: rgba(255, 255, 255, 0.8); /* Полупрозрачный фон для ячеек */
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая внутренняя тень */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    padding: 15px;
+    text-align: center;
+    border: none;
+    border-radius: 20px;
+    width: 33.33%;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; /* Добавлено */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .unique-th {
-    background-color: rgba(193, 240, 207, 1); /* Более яркий вариант зеленого *//* Полупрозрачный фоновый цвет для заголовков */
-    font-weight: bold; /* Жирный текст для заголовков */
-    letter-spacing: 0.05em; /* Немного увеличенный интервал между буквами */
+    background-color: rgba(193, 240, 207, 1);
+    font-weight: bold;
+    letter-spacing: 0.05em;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 
 }
@@ -128,3 +129,7 @@
     opacity: 1;
     filter: blur(0); /* Убираем размытость */
     transform: translateY(0); /* Возвращаем на место */
+}
+.unique-th {
+    background: linear-gradient(180deg, rgba(193, 240, 207, 1), rgba(144, 238, 144, 0.8));
+}
