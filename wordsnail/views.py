@@ -1,8 +1,10 @@
 import random
+import json
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from wordsnail.models import Shop, Raiting, User
 from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo, postrequest
@@ -16,6 +18,7 @@ __all__ = (
     "shop",
     "play",
     "get_random_word",
+    "put_cash",
 )
 
 
@@ -66,4 +69,18 @@ WORDS = ["груша", "банан", "слива", "персик"]
 def get_random_word(request):
     word = random.choice(WORDS)
     return JsonResponse({"word": word, "len": len(word)})
+
+
+@csrf_exempt  # Это отключает проверку CSRF. Используй только в тестовых целях, в продакшене лучше настроить CSRF корректно.
+def put_cash(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)  # Получаем данные из запроса
+        money = data.get("money")
+
+        # print(money)
+
+        # Здесь можно обработать данные и вернуть ответ
+    #     return JsonResponse({'message': 'Данные получены', 'key1': key1, 'key2': key2})
+    return JsonResponse({"Code": 200})
+    # return redirect("play")
 

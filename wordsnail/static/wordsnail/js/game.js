@@ -47,6 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
         currentRow = Array.from(row.children);
     }
 
+
+
+
     function handleKeyPress(event) {
         // Проверяем, находится ли фокус на элементе input
         if (document.activeElement.tagName === "INPUT") {
@@ -95,7 +98,28 @@ document.addEventListener("DOMContentLoaded", () => {
             // alert("Поздравляем! Вы угадали слово!");
             showWinAlert();
             // message.textContent = "Поздравляем! Вы угадали слово!";
+            const data = { 
+                money: calculatingReward(countWrongAnswers)
+            }
+
+            fetch('/api/put-cash/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken() // Для защиты от CSRF-атак
+                },
+                body: JSON.stringify(data)
+            })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Success:', data); // Обработка ответа от сервера
+            // })
+            // .catch((error) => {
+            //     console.error('Error:', error);
+            // });
+
             document.removeEventListener("keydown", handleKeyPress);
+
         } else {
             checkGuess();
             if (++rowCount < 6) {
@@ -201,5 +225,19 @@ document.addEventListener('keydown', function(event) {
         closeAlert();
     }
 });
+
+
+// Функция для получения CSRF-токена из cookies
+function getCSRFToken() {
+    const name = 'csrftoken';
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const trimmedCookie = cookie.trim();
+        if (trimmedCookie.startsWith(`${name}=`)) {
+            return trimmedCookie.substring(name.length + 1);
+        }
+    }
+    return '';
+}
 
 
