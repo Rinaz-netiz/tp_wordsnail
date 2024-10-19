@@ -158,17 +158,6 @@ h1 {
     display: block;
 }
 
-.dg {
-    font-size: 28px;
-    color: #99cc33;
-    font-weight: bold;
-    font-family: cursive;
-}
-.dg:hover {
-    text-decoration: none;
-}
-
-
 .info {
     display: flex;
     align-items: center;
@@ -226,42 +215,64 @@ h1 {
 
 
 
-
 .container {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
-    /* Фон контейнера оставляем прозрачным */
+    align-items: center;
+    width: 80%;
 }
 
-.left-rect {
-    width: 45%;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #f5f5dc; /* бежевый цвет для левого прямоугольника */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Левый блок */
+.left-block {
+    background-color: #f8f8f8;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 40%;
+    text-align: center;
 }
 
-.right-rect {
-    width: 45%;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #4CAF50; /* зеленый цвет для правого прямоугольника */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.left-block .logo {
+    font-family: 'Cursive', sans-serif;
+    font-size: 3em;
+    margin: 0;
 }
 
-.title {
-    font-size: 2em;
-    color: #333; /* темно-серый цвет текста */
-    margin-bottom: 10px;
+.left-block .users-count {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #555;
 }
 
-.users, .description {
-    font-size: 1.1em;
-    color: #333; /* темно-серый цвет текста */
-    margin: 5px 0;
+/* Правый блок */
+.right-block {
+    background-color: #f8f8f8;
+    border: 3px solid #aaff00;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 50%;
+    text-align: center;
 }
 
-.description {
-    line-height: 1.5; /* увеличивает расстояние между строками для удобства чтения */
+.right-block .logo {
+    font-family: 'Cursive', sans-serif;
+    font-size: 3em;
+    margin: 0;
 }
+
+.right-block .description {
+    font-size: 1.2em;
+    margin-top: 20px;
+    line-height: 1.6;
+    color: #555;
+}
+
+
+
+
+.barimg {
+    width: 70px;  /* Ограничивает максимальную ширину до 100% родительского контейнера */
+    height: auto;     /* Высота автоматически подстраивается */
+}
+

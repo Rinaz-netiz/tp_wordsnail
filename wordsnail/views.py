@@ -54,7 +54,7 @@ def raiting(request):
 
 def shop(request):  # страница магазина
     if not user_is_authenticated(request):
-        return redirect('index')
+        return redirect('loginhome')
 
     things_in_shop, current_user_id, id_lis, user_profile = getinfo(request.user)
     if request.method == 'POST':

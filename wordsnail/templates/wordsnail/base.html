@@ -21,7 +21,7 @@
 
     <nav class="navbar">
         <div class="logo">
-            <a href="/" class="dg">W</a>
+            <a href="{% url 'index' %}" ><img class="barimg" src="{{ user.profile.current_skin.url }}"  alt="W" /></a>
         </div>
 
         <div class="info">
