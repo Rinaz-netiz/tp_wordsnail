@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class Shop(models.Model):
@@ -19,7 +20,9 @@ class Shop(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    current_skin = models.ImageField(upload_to="shopThings/gifs/", default="shopThings/gifs/tild3566-3639-4262-a532-653333373534__photo_52042523487912.jpg")
+    current_skin = models.ImageField(
+        upload_to="shopThings/gifs/",
+        default="shopThings/gifs/tild3566-3639-4262-a532-653333373534__photo_52042523487912.jpg")
     money = models.IntegerField(default=0)
     rating = models.IntegerField(default=0)
     arr_skins = models.ManyToManyField(Shop)
@@ -35,9 +38,13 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
-        default_skin = Shop.objects.get(picture = "shopThings/gifs/tild3566-3639-4262-a532-653333373534__photo_52042523487912.jpg")
-        instance.profile.arr_skins.add(default_skin)
+        try:
+            Profile.objects.create(user=instance)
+            default_skin = Shop.objects.get(
+                picture="shopThings/gifs/tild3566-3639-4262-a532-653333373534__photo_52042523487912.jpg")
+            instance.profile.arr_skins.add(default_skin)
+        except ObjectDoesNotExist:
+            pass
 
 
 @receiver(post_save, sender=User)
