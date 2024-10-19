@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentGuess === solution) {
             markRow("correct");
             // alert("Поздравляем! Вы угадали слово!");
-            showAlert()
-            message.textContent = "Поздравляем! Вы угадали слово!";
+            showWinAlert();
+            // message.textContent = "Поздравляем! Вы угадали слово!";
             document.removeEventListener("keydown", handleKeyPress);
         } else {
             checkGuess();
@@ -90,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 createEmptyRow();
                 currentGuess = "";
             } else {
-                alert(`Игра окончена! Загаданное слово: "${solution}".`);
-                message.textContent = `Игра окончена! Загаданное слово: "${solution}".`;
+                showLoseAlert()
+                // message.textContent = `Игра окончена! Загаданное слово: "${solution}".`;
                 document.removeEventListener("keydown", handleKeyPress);
             }
         }
@@ -117,20 +117,71 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function showAlert() {
-        const alertBox = document.getElementById('winAlert');
-        alertBox.style.display = 'block';
-        alertBox.style.opacity = '1'; // Показать с анимацией
+
+    function showWinAlert() {
+        // Создаем контейнер алерта
+        const alertContainer = document.createElement('div');
+        alertContainer.className = 'alert-container';
+        alertContainer.id = 'alert';
+        alertContainer.innerHTML = `
+            <div class="alert-content">
+                <h2>Вы победили!</h2>
+                <p>Поздравляем! Вы справились с задачей. Попробуйте ещё раз для нового вызова!</p>
+                <button onclick="closeAlert()">Закрыть</button>
+            </div>
+        `;
+
+        // Добавляем контейнер в body
+        document.body.appendChild(alertContainer);
+
+        document.querySelector('.alert-content h2').style.color = "#2ecc71";
+        document.querySelector('.alert-content button').style.backgroundColor = "#2ecc71";
+        console.log(document.body.querySelector('.alert-content button'));
+        // console.log(document.body.querySelector('.alert-content button').style.color);
+    
+    
+        // Показываем алерт с помощью класса "show"
+        setTimeout(() => {
+            alertContainer.classList.add('show');
+        }, 10);
     }
+
+    
+
+    function showLoseAlert() {
+        const alertContainer = document.createElement('div');
+        alertContainer.className = 'alert-container';
+        alertContainer.id = 'alert';
+        alertContainer.innerHTML = `
+            <div class="alert-content">
+                <h2>Вы проиграли!</h2>
+                <p>Правильное слово: ${solution}</p>
+                <button onclick="closeAlert()">Закрыть</button>
+            </div>
+        `;
+
+        // Добавляем контейнер в body
+        document.body.appendChild(alertContainer);
+    
+        // Показываем алерт с помощью класса "show"
+        setTimeout(() => {
+            alertContainer.classList.add('show');
+        }, 10);
+    }
+    
    
 });
 
+    
 function closeAlert() {
-    const alertBox = document.getElementById('winAlert');
-    alertBox.style.opacity = '0'; // Скрыть с анимацией
-    setTimeout(() => {
-        alertBox.style.display = 'none'; // Убрать из потока после анимации
-    }, 300); // Время должно совпадать с длительностью transition
+    const alertContainer = document.getElementById('alert');
+    if (alertContainer) {
+        alertContainer.classList.remove('show');
+        // Удаляем алерт из DOM через время, чтобы завершить анимацию
+        setTimeout(() => {
+            alertContainer.remove();
+        }, 300);
+    }
 }
 
 document.addEventListener('keydown', function(event) {
@@ -138,3 +189,5 @@ document.addEventListener('keydown', function(event) {
         closeAlert();
     }
 });
+
+
