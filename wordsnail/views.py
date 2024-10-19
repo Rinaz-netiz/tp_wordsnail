@@ -1,5 +1,8 @@
+import random
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import JsonResponse
 
 from wordsnail.models import Shop, Raiting, User
 from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo, postrequest
@@ -11,7 +14,10 @@ __all__ = (
     "register",
     "raiting",
     "shop",
+    "play",
+    "get_random_word",
 )
+
 
 def home(request):
     return render(request, "wordsnail/home.html")
@@ -49,4 +55,15 @@ def shop(request):  # страница магазина
                                                    "money": user_profile.money,
                                                    "skin": user_profile.current_skin})
 
+
+def play(request):
+    return render(request, "wordsnail/game_page.html")
+
+
+WORDS = ["груша", "банан", "слива", "персик"]
+
+
+def get_random_word(request):
+    word = random.choice(WORDS)
+    return JsonResponse({"word": word, "len": len(word)})
 

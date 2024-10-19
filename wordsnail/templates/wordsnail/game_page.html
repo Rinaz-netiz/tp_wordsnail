@@ -1,0 +1,21 @@
+{% extends 'wordsnail/base.html' %}
+
+
+{% block yourhtml %}
+<div class="game-container">
+    <h1>5 Letter Game</h1>
+    <div class="board" id="board">
+        <!-- Rows will be dynamically added using JavaScript -->
+    </div>
+    <p id="message"></p>
+    <div class="alert" id="winAlert">
+        <span class="closebtn" onclick="closeAlert()">&times;</span>
+    <strong>Поздравляем!</strong> Вы угадали слово!
+</div>
+
+</div>
+
+{% endblock %}
+
+{% load static %}
+<script src="{% static 'wordsnail/js/game.js' %}"></script>

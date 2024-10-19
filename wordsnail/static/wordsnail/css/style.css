@@ -234,3 +234,111 @@ h1 {
     background: linear-gradient(135deg, #48c6ef, #6f86d6); /* Изменение градиента при наведении */
     transform: scale(1.05); /* Увеличение кнопки при наведении */
 }
+
+
+
+/* Game page */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.board {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.row {
+    display: grid;
+    /* grid-template-columns: repeat(5, 50px);  */
+    gap: 10px;
+}
+
+.row_for_4_letters {
+    grid-template-columns: repeat(4, 50px);
+}
+
+.row_for_5_letters {
+    grid-template-columns: repeat(5, 50px);
+}
+
+.row_for_6_letters {
+    grid-template-columns: repeat(6, 50px);
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd;
+    border-radius: 5px;
+    font-size: 20px;
+    text-transform: uppercase;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease-in-out;
+}
+
+
+.cell.filled {
+    transform: scale(1.1);
+}
+
+.correct {
+    background-color: #6aaa64;
+    color: white;
+}
+
+.present {
+    background-color: #c9b458;
+    color: white;
+}
+
+.absent {
+    background-color: #787c7e;
+    color: white;
+}
+
+.game-container p {
+    font-size: 14px;
+    color: red;
+}
+
+/* Alerts */
+
+/* Поздравление с победой */
+.alert {
+    display: none; /* Скрыть alert по умолчанию */
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #4caf50; /* Зеленый цвет */
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+}
+
+.closebtn:hover {
+    color: #ccc;
+}
+
