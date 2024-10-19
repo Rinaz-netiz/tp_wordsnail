@@ -61,7 +61,7 @@ def shop(request):  # страница магазина
         return render(request, "wordsnail/shop.html")
 
     if request.method == 'POST':
-        return postrequest(request, data["id_lis"], data["current_user_id"])
+        return postrequest(request, data["id_lis"], data["user_id"])
 
     return render(request, "wordsnail/shop.html", data)
 
