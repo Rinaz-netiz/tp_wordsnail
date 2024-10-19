@@ -412,3 +412,49 @@ h1 {
     }
 }
 
+.alert-content {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8d7da;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Расстояние между кнопками */
+    margin-top: 10px;
+}
+.button-container button {
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #ffcc00, #ff6f91); /* Градиент от жёлтого к розовому */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Добавим эффект при наведении */
+}
+.button-container button:hover {
+    transform: scale(1.05); /* Увеличение кнопки при наведении */
+}
+
+
+/* Кнопка новой игры*/
+#restart-container {
+    display: none; 
+    text-align: center; 
+    margin-top: 20px;
+}
+
+#restart-container button {
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #ffcc00, #ff6f91); /* Градиент для кнопки перезапуска */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Плавный переход */
+}
+#restart-container button:hover {
+    transform: scale(1.05); /* Увеличение кнопки при наведении */
+}

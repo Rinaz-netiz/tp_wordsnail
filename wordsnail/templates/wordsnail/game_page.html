@@ -10,9 +10,17 @@
     </div>
     <p id="message"></p>
 
+    <div id="restart-container">
+        <button onclick="restartGame()">Restart</button>
+    </div>
 </div>
 
+<script>
+    const shopUrl = "{% url 'shop' %}";
+    const homeUrl = "{% url 'index' %}";
+</script>
 <script src="{% static 'wordsnail/js/game.js' %}"></script>
+
 
 {% endblock %}
 

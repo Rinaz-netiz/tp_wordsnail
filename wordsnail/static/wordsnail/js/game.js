@@ -166,6 +166,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p>Поздравляем! Вы справились с задачей. Попробуйте ещё раз для нового вызова!</p>
                 <p>Ваша награда: &#128012; ${calculatingReward(countWrongAnswers)}</p>
                 <button onclick="closeAlert()">Закрыть</button>
+
+                <!-- Контейнер для кнопок "Домой" и "Магазин" -->
+                <div class="button-container">
+                    <button onclick="goHome()">Домой</button>
+                    <button onclick="goToShop()">Магазин</button>
+                </div>
             </div>
         `;
 
@@ -193,6 +199,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p>Правильное слово: ${solution}</p>
                 <p>Ваша награда: &#128012; 0</p>
                 <button onclick="closeAlert()">Закрыть</button>
+            
+                <!-- Контейнер для кнопок "Домой" и "Магазин" -->
+                <div class="button-container">
+                    <button onclick="goHome()">Домой</button>
+                    <button onclick="goToShop()">Магазин</button>
+                </div>
             </div>
         `;
 
@@ -210,6 +222,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
 function closeAlert() {
+    const restartButton = document.getElementById('restart-container');
+    restartButton.style.display = 'block';
+
     const alertContainer = document.getElementById('alert');
     if (alertContainer) {
         alertContainer.classList.remove('show');
@@ -218,6 +233,7 @@ function closeAlert() {
             alertContainer.remove();
         }, 300);
     }
+
 }
 
 document.addEventListener('keydown', function(event) {
@@ -241,3 +257,14 @@ function getCSRFToken() {
 }
 
 
+function goHome() {
+    window.location.href = homeUrl;
+}
+
+function goToShop() {
+    window.location.href = shopUrl;
+}
+
+function restartGame() {
+    location.reload();
+}
