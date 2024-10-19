@@ -23,9 +23,7 @@
         <div class="logo">
             <a href="/" class="dg">W</a>
         </div>
-        <div class="chat">
-            <input type="text" placeholder="Chat here.......">
-        </div>
+
         <div class="info">
             <span class="stars">{{ user.profile.money }}✨</span>
             <a href="{% url 'shop' %}" class="shop">Shop</a>
@@ -36,12 +34,11 @@
         {% if user.is_authenticated %}
 
         <div class="user">
-            <a href="/" class="button-link">Выйти</a> <!-- Сделать выход нада -->
-            <br>
-            <div class="user-icon">{{ user.username }}</div>
+            <a href="{% url 'loginhome' %}" class="button-link">{{ user.username }}</a> <!-- Сделать выход нада -->
+
         </div>
         {% else %}
-        <a href="/" class="button-link">Войти</a> <!-- побыстрее как то -->
+        <a href="{% url 'loginhome' %}" class="button-link">Войти</a> <!-- побыстрее как то -->
         {% endif %}
     </nav>
 

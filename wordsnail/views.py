@@ -22,11 +22,16 @@ __all__ = (
     "play",
     "get_random_word",
     "put_cash",
+    "loginhome"
 )
 
 
 def home(request):
     return render(request, "wordsnail/home.html")
+
+
+def loginhome(request):
+    return render(request, "wordsnail/loginhome.html")
 
 
 def register(request):
