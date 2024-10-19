@@ -38,12 +38,16 @@
         <div class="user">
             <div class="user-icon">{{ user.username }}</div>
             <br>
-            <a href="/" class="button-link">Log out</a> <!-- Сделать выход нада -->
+            <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="button-link">Log Out</button>
+</form>
+
         </div>
         {% else %}
         <div class="button-container">
-        <a href="/" class="button-link">Registration</a>
-        <a href="/" class="button-link">Log in</a>
+        <a href="{% url 'register' %}" class="button-link">Registration</a>
+        <a href="{% url 'login' %}" class="button-link">Log in</a>
     </div>
         {% endif %}
     </nav>
