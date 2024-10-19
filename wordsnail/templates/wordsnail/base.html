@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,10 +11,39 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'wordsnail/css/style.css' %}">
     <title>Document</title>
 </head>
 <body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/" class="dg">W</a>
+        </div>
+        <div class="chat">
+            <input type="text" placeholder="Chat here.......">
+        </div>
+        <div class="info">
+            <span class="stars">{{ user.profile.money }}✨</span>
+            <a href="{% url 'shop' %}" class="shop">Shop</a>
+            <a href="#" class="rating">Rating</a>  <!-- Ссылка на страницу Rating-->
+            <a href="#" class="play">Play</a>  <!-- Ссылка на страницу игры -->
+
+        </div>
+        {% if user.is_authenticated %}
+
+        <div class="user">
+            <a href="/" class="button-link">Выйти</a> <!-- Сделать выход нада -->
+            <br>
+            <div class="user-icon">{{ user.username }}</div>
+        </div>
+        {% else %}
+        <a href="/" class="button-link">Войти</a> <!-- побыстрее как то -->
+        {% endif %}
+    </nav>
+
     {% block yourhtml %}
     {% endblock %}
+<script src="{% static 'wordsnail/js/script.js' %}"></script>
 </body>
 </html>
