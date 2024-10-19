@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = document.createElement("div");
         row.classList.add("row");
 
-        if(wordLen == 4) 
+        if(wordLen == 4)
             row.classList.add("row_for_4_letters");
         else if(wordLen == 5)
             row.classList.add("row_for_5_letters");
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alertContainer.innerHTML = `
             <div class="alert-content">
                 <h2>Вы победили!</h2>
-                <p>Поздравляем! Вы справились с задачей. Попробуйте ещё раз для нового вызова!</p>
+                <p>Ты просто unstoppable! Как настоящий clever boy, ты угадал слово и теперь можешь спокойно занять место у водителя!</p>
                 <p>Ваша награда: &#128012; ${calculatingReward(countWrongAnswers)}</p>
                 <button onclick="closeAlert()">Закрыть</button>
 
@@ -196,10 +196,11 @@ document.addEventListener("DOMContentLoaded", () => {
         alertContainer.innerHTML = `
             <div class="alert-content">
                 <h2>Вы проиграли!</h2>
-                <p>Правильное слово: ${solution}</p>
+                <p>Кажется, wicked пассажиры оказались быстрее… Но не сдавайся! Еще одна попытка, и ты точно окажешься у руля.</p>
+                <p>Правильное слово: <strong>${solution}</storng></p>
                 <p>Ваша награда: &#128012; 0</p>
                 <button onclick="closeAlert()">Закрыть</button>
-            
+
                 <!-- Контейнер для кнопок "Домой" и "Магазин" -->
                 <div class="button-container">
                     <button onclick="goHome()">Домой</button>
@@ -210,13 +211,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Добавляем контейнер в body
         document.body.appendChild(alertContainer);
-    
+
         // Показываем алерт с помощью класса "show"
         setTimeout(() => {
             alertContainer.classList.add('show');
         }, 10);
     }
-    
+
    
 });
 
