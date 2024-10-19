@@ -29,9 +29,9 @@
             <a href="{% url 'play' %}" class="play">Play</a>
             <a href="{% url 'rating' %}" class="rating">Rating</a>
              <!-- Ссылка на страницу игры -->
-
+            {% if user.is_authenticated %}
             <span class="stars">{{ user.profile.money }}&#128012</span>
-
+            {% endif %}
         </div>
         {% if user.is_authenticated %}
 
@@ -43,7 +43,7 @@
         {% else %}
         <div class="button-container">
         <a href="/" class="button-link">Registration</a>
-        <a href="/" class="button-link">Login</a>
+        <a href="/" class="button-link">Log in</a>
     </div>
         {% endif %}
     </nav>
