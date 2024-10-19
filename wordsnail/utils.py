@@ -2,14 +2,14 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.core.exceptions import ImproperlyConfigured
 
-from wordsnail.models import Shop, User
+from wordsnail.models import Shop, User, Rating
 from wordsnail.forms import RegisterUserForm
 
 
 def add_skin(id_picture, current_user_id):
     """Функция добавляет юзеру скин"""
-    skin = Shop.objects.get(id = id_picture)
-    user = User.objects.get(id = current_user_id)
+    skin = Shop.objects.get(id=id_picture)
+    user = User.objects.get(id=current_user_id)
     user_profile = user.profile
     if user_profile.money >= skin.price:
         user_profile.money -= skin.price
@@ -21,7 +21,7 @@ def change_skin(id_picture, current_user_id):
     """Смена текущего скина"""
     user = User.objects.get(id=current_user_id)
     user_profile = user.profile
-    user_profile.current_skin = Shop.objects.get(id = id_picture).picture
+    user_profile.current_skin = Shop.objects.get(id=id_picture).picture
     user_profile.save()
 
 
@@ -69,6 +69,24 @@ def balance_replenishment(user, money):
     return {"Code": 200, "details": "All ok"}
 
 
+def order_by_rating(request):
+    data = {'r': [],
+            'current_user_rating': None,
+            'user_place': None}
 
+    try:
+        all_ratings = Rating.objects.all().order_by('-rating')
+    except ImproperlyConfigured:
+        return data
 
+    if not user_is_authenticated:
+        data["r"] = all_ratings
+        return data
 
+    for index, rating in enumerate(all_ratings):
+        rating.place = index + 1
+        if rating.user_id == request.user:
+            data["user_place"] = index + 1
+            data["current_user_rating"] = rating
+
+    return data

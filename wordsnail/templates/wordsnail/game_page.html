@@ -1,6 +1,10 @@
 {% extends 'wordsnail/base.html' %}
 {% load static %}
 
+{% block additional_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'wordsnail/css/game.css' %}">
+{% endblock %}
+
 
 {% block yourhtml %}
 <div class="game-container">
