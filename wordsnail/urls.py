@@ -6,8 +6,11 @@ from .views import *
 
 urlpatterns = [
     path("register/", register, name='register'),
-    path("raiting/", raiting, name="index"),
+    path("raiting/", raiting, name="raiting"),
     path("shop/", shop, name="shop"),
+    path("play/", play, name="play"),
     path("entry/", include('django.contrib.auth.urls')),
+    path('api/random-word/', get_random_word, name='random_word'),
+    path('api/put-cash/', put_cash, name='put_cash'),
     path("", home, name="index"),
 ]

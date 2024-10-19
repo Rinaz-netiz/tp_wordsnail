@@ -1,9 +1,17 @@
+import random
+import json
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from wordsnail.models import Shop, Raiting, User
-from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo, postrequest
+from wordsnail.utils import (register_new_user, change_skin,
+                             add_skin, getinfo, postrequest,
+                             balance_replenishment, user_is_authenticated)
 from wordsnail.forms import RegisterUserForm
+from wordsnail.words_for_game import WORDS
 
 
 __all__ = (
@@ -11,7 +19,11 @@ __all__ = (
     "register",
     "raiting",
     "shop",
+    "play",
+    "get_random_word",
+    "put_cash",
 )
+
 
 def home(request):
     return render(request, "wordsnail/home.html")
@@ -35,11 +47,10 @@ def raiting(request):
 
 
 def shop(request):  # страница магазина
-    user = request.user
-    if not user.is_authenticated:
+    if not user_is_authenticated(request):
         return redirect('index')
 
-    things_in_shop, current_user_id, id_lis, user_profile = getinfo(user)
+    things_in_shop, current_user_id, id_lis, user_profile = getinfo(request.user)
     if request.method == 'POST':
         return postrequest(request, id_lis, current_user_id)
 
@@ -48,5 +59,29 @@ def shop(request):  # страница магазина
                                                    "id_lis": id_lis,
                                                    "money": user_profile.money,
                                                    "skin": user_profile.current_skin})
+
+
+def play(request):
+    return render(request, "wordsnail/game_page.html")
+
+
+def get_random_word(request):
+    word = random.choice(WORDS)
+    return JsonResponse({"word": word, "len": len(word)})
+
+
+@csrf_exempt  # Это отключает проверку CSRF. Используй только в тестовых целях, в продакшене лучше настроить CSRF корректно.
+def put_cash(request):
+    if not user_is_authenticated(request):
+        return redirect("play")
+
+    if request.method == 'POST':
+        data = json.loads(request.body)  # Получаем данные из запроса
+
+        response = balance_replenishment(request.user, data.get("money"))
+    else:
+        response = {"Code": 400, "details": "Don't post request"}
+
+    return JsonResponse(response)
 
 

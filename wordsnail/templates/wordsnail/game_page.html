@@ -1,0 +1,29 @@
+{% extends 'wordsnail/base.html' %}
+{% load static %}
+
+
+{% block yourhtml %}
+<div class="game-container">
+    <h1>5 Letter Game</h1>
+    <div class="board" id="board">
+        <!-- Rows will be dynamically added using JavaScript -->
+    </div>
+    <p id="message"></p>
+
+    <div id="restart-container">
+        <button onclick="restartGame()">Restart</button>
+    </div>
+</div>
+
+<script>
+    const shopUrl = "{% url 'shop' %}";
+    const homeUrl = "{% url 'index' %}";
+</script>
+<script src="{% static 'wordsnail/js/game.js' %}"></script>
+
+
+{% endblock %}
+
+
+
+
