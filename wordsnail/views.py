@@ -10,7 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from wordsnail.forms import RegisterUserForm
 from wordsnail.utils import (register_new_user, order_by_rating,
                              getinfo, postrequest,
-                             balance_replenishment, user_is_authenticated)
+                             balance_replenishment_and_change_rating,
+                             user_is_authenticated)
 from wordsnail.words_for_game import WORDS
 
 
@@ -78,11 +79,9 @@ def put_cash(request):
 
     if request.method == 'POST':
         data = json.loads(request.body)  # Получаем данные из запроса
-
-        response = balance_replenishment(request.user, data.get("money"))
-
+        response = balance_replenishment_and_change_rating(request.user, data.get("money"), data.get("rating"))
     else:
-        response = {"Code": 400, "details": "Don't post request"}
+        response = {"code": 400, "details": "Don't post request"}
 
     return JsonResponse(response)
 

@@ -54,19 +54,22 @@ def user_is_authenticated(request):
     return request.user.is_authenticated
 
 
-def balance_replenishment(user, money):
-    if not money:
-        return {"Code": 400, "details": "Money is empty"}
+def balance_replenishment_and_change_rating(user, money, rating):
+    if money is None:
+        return {"code": 400, "details": "Money is empty"}
+    if rating is None:
+        return {"code": 400, "details": "Rating is empty"}
 
     try:
         user = User.objects.get(id=user.id).profile
     except ImproperlyConfigured:
-        return {"Code": 500, "details": "ImproperlyConfigured"}
+        return {"code": 500, "details": "ImproperlyConfigured"}
 
     user.money += int(money)
+    user.rating += int(rating)
     user.save()
 
-    return {"Code": 200, "details": "All ok"}
+    return {"code": 200, "details": "All ok"}
 
 
 def order_by_rating(request):
@@ -89,5 +92,4 @@ def order_by_rating(request):
         except ImproperlyConfigured:
             pass
 
-    print(data)
     return data
