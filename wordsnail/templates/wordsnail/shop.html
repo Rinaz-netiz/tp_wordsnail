@@ -11,7 +11,9 @@
             <h5 class="card-title" style="color:white">{{el.title}}</h5>
             <form method="post">
                 {% csrf_token %}
-                {% if el.id not in id_lis %}
+                {% if user.profile.current_skin == el.picture %}
+                    <button class="shopMy" type="submit" name="act" value="{{el.id}}">Применено</button>
+                {% elif el.id not in id_lis %}
                     <button class="shopBtn" type="submit" name="act" value="{{el.id}}">{{el.price}}$$</button>
                 {% else %}
                     <button class="shopBtnHave" type="submit" name="act" value="{{el.id}}">Применить</button>
