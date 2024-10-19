@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from wordsnail.models import Shop, Raiting, User
+from wordsnail.models import Shop, Rating
 from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo, postrequest
 from wordsnail.forms import RegisterUserForm
 
@@ -30,8 +30,11 @@ def register(request):
 
 
 def raiting(request):
-    raiting = Raiting.objects.all().order_by("-raiting")
-    return render(request, "wordsnail/raiting.html", {"r": raiting})
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('index')
+    rating = Rating.objects.all().order_by("-rating")
+    return render(request, "wordsnail/raiting.html", {"r": rating, 'user': user})
 
 
 def shop(request):  # страница магазина

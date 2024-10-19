@@ -6,7 +6,11 @@
 </head>
 <body>
     {% for el in r %}
-    <p>{{ el.user_id }} - {{ el.raiting }} - {{ el.count }}</p>
+    {% if user == el.user_id %}
+        <p style="background-color: rgb(135, 206, 235)">{{ el.user_id }} - {{ el.rating }}</p>
+    {% else %}
+        <p>{{ el.user_id }} - {{ el.rating }}</p>
+    {% endif %}
     {% endfor %}
 </body>
 </html>
