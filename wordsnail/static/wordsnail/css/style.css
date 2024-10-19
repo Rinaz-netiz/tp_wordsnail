@@ -222,3 +222,46 @@ h1 {
     background: linear-gradient(135deg, #48c6ef, #6f86d6); /* Изменение градиента при наведении */
     transform: scale(1.05); /* Увеличение кнопки при наведении */
 }
+
+
+
+
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    /* Фон контейнера оставляем прозрачным */
+}
+
+.left-rect {
+    width: 45%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f5f5dc; /* бежевый цвет для левого прямоугольника */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.right-rect {
+    width: 45%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #4CAF50; /* зеленый цвет для правого прямоугольника */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 2em;
+    color: #333; /* темно-серый цвет текста */
+    margin-bottom: 10px;
+}
+
+.users, .description {
+    font-size: 1.1em;
+    color: #333; /* темно-серый цвет текста */
+    margin: 5px 0;
+}
+
+.description {
+    line-height: 1.5; /* увеличивает расстояние между строками для удобства чтения */
+}
