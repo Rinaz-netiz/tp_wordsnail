@@ -7,8 +7,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from wordsnail.models import Shop, Raiting, User
-from wordsnail.utils import register_new_user, change_skin, add_skin, getinfo, postrequest
+from wordsnail.utils import (register_new_user, change_skin,
+                             add_skin, getinfo, postrequest,
+                             balance_replenishment, user_is_authenticated)
 from wordsnail.forms import RegisterUserForm
+from wordsnail.words_for_game import WORDS
 
 
 __all__ = (
@@ -44,11 +47,10 @@ def raiting(request):
 
 
 def shop(request):  # страница магазина
-    user = request.user
-    if not user.is_authenticated:
+    if not user_is_authenticated(request):
         return redirect('index')
 
-    things_in_shop, current_user_id, id_lis, user_profile = getinfo(user)
+    things_in_shop, current_user_id, id_lis, user_profile = getinfo(request.user)
     if request.method == 'POST':
         return postrequest(request, id_lis, current_user_id)
 
@@ -64,21 +66,22 @@ def play(request):
 
 
 def get_random_word(request):
-    WORDS = ["груша", "банан", "слива", "персик"]
     word = random.choice(WORDS)
     return JsonResponse({"word": word, "len": len(word)})
 
 
 @csrf_exempt  # Это отключает проверку CSRF. Используй только в тестовых целях, в продакшене лучше настроить CSRF корректно.
 def put_cash(request):
+    if not user_is_authenticated(request):
+        return redirect("play")
+
     if request.method == 'POST':
         data = json.loads(request.body)  # Получаем данные из запроса
-        money = data.get("money")
 
-        # print(money)
+        response = balance_replenishment(request.user, data.get("money"))
+    else:
+        response = {"Code": 400, "details": "Don't post request"}
 
-        # Здесь можно обработать данные и вернуть ответ
-    #     return JsonResponse({'message': 'Данные получены', 'key1': key1, 'key2': key2})
-    return JsonResponse({"Code": 200})
-    # return redirect("play")
+    return JsonResponse(response)
+
 
