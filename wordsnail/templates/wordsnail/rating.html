@@ -23,7 +23,7 @@
                 <tr class="unique-ranking-row">
                     <td class="unique-td">{{ user_place }}</td>  <!-- Актуальное место авторизованного пользователя -->
                     <td class="unique-td">{{ request.user.username }}</td>  <!-- Никнейм авторизованного пользователя -->
-                    <td class="unique-td">{{ current_user_rating.rating }}</td>  <!-- Рейтинг авторизованного пользователя -->
+                    <td class="unique-td">{{ current_user_rating }}</td>  <!-- Рейтинг авторизованного пользователя -->
                 </tr>
             </tbody>
         </table>
@@ -48,7 +48,7 @@
             {% for el in r %}
                 <tr class="unique-data-row {% if el.user_id == request.user %}highlight{% endif %}">
                     <td class="unique-td">{{ forloop.counter }}</td>  <!-- Порядковый номер (место) -->
-                    <td class="unique-td">{{ el.user_id.username }}</td>  <!-- Имя пользователя -->
+                    <td class="unique-td">{{ el.name }}</td>  <!-- Имя пользователя -->
                     <td class="unique-td">{{ el.rating }}</td>  <!-- Рейтинг -->
                 </tr>
             {% endfor %}

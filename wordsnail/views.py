@@ -80,6 +80,7 @@ def put_cash(request):
         data = json.loads(request.body)  # Получаем данные из запроса
 
         response = balance_replenishment(request.user, data.get("money"))
+
     else:
         response = {"Code": 400, "details": "Don't post request"}
 
