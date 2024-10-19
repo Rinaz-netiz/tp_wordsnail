@@ -63,10 +63,8 @@ def play(request):
     return render(request, "wordsnail/game_page.html")
 
 
-WORDS = ["груша", "банан", "слива", "персик"]
-
-
 def get_random_word(request):
+    WORDS = ["груша", "банан", "слива", "персик"]
     word = random.choice(WORDS)
     return JsonResponse({"word": word, "len": len(word)})
 

@@ -1,4 +1,5 @@
 {% extends 'wordsnail/base.html' %}
+{% load static %}
 
 
 {% block yourhtml %}
@@ -11,7 +12,10 @@
 
 </div>
 
+<script src="{% static 'wordsnail/js/game.js' %}"></script>
+
 {% endblock %}
 
-{% load static %}
-<script src="{% static 'wordsnail/js/game.js' %}"></script>
+
+
+

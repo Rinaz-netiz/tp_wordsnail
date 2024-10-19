@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="alert-content">
                 <h2>Вы проиграли!</h2>
                 <p>Правильное слово: ${solution}</p>
-                <p>Ваша награда: &#128012; ${calculatingReward(countWrongAnswers)}</p>
+                <p>Ваша награда: &#128012; 0</p>
                 <button onclick="closeAlert()">Закрыть</button>
             </div>
         `;
