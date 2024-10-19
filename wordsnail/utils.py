@@ -2,7 +2,7 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.core.exceptions import ImproperlyConfigured
 
-from wordsnail.models import Shop, User, Rating
+from wordsnail.models import Shop, User, Profile
 from wordsnail.forms import RegisterUserForm
 
 
@@ -71,22 +71,23 @@ def balance_replenishment(user, money):
 
 def order_by_rating(request):
     data = {'r': [],
-            'current_user_rating': None,
-            'user_place': None}
+            'current_user_rating': 0,
+            'user_place': 0}
 
     try:
-        all_ratings = Rating.objects.all().order_by('-rating')
+        all_ratings = Profile.objects.all().order_by('-rating')
     except ImproperlyConfigured:
         return data
 
-    if not user_is_authenticated:
-        data["r"] = all_ratings
-        return data
+    for index, user in enumerate(all_ratings, start=1):
+        try:
+            data["r"].append({"place": index, "name": User.objects.get(id=user.id).username, "rating": user.rating})
 
-    for index, rating in enumerate(all_ratings):
-        rating.place = index + 1
-        if rating.user_id == request.user:
-            data["user_place"] = index + 1
-            data["current_user_rating"] = rating
+            if user_is_authenticated and user.id == request.user.id:
+                data["current_user_rating"] = user.rating
+                data["user_place"] = index
+        except ImproperlyConfigured:
+            pass
 
+    print(data)
     return data

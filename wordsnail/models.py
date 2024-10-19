@@ -42,15 +42,3 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-
-class Rating(models.Model):
-    rating = models.IntegerField(default=1000)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.id)
-
-    class Meta:
-        verbose_name = "Raiting"
-        verbose_name_plural = "Raitings"
-
