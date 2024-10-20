@@ -1,5 +1,4 @@
 import random
-import json
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -9,9 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from wordsnail.forms import RegisterUserForm
 from wordsnail.utils import (register_new_user, order_by_rating,
-                             getinfo, postrequest,
-                             balance_replenishment_and_change_rating,
-                             user_is_authenticated, buy_item_in_shop,
+                             getinfo, balance_replenishment_and_change_rating,
                              process_post_request, action_with_skins)
 from wordsnail.words_for_game import WORDS
 
