@@ -1,5 +1,4 @@
 from django.contrib.auth import login
-from django.shortcuts import redirect
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 
 from wordsnail.models import Shop, User, Profile
@@ -69,7 +68,6 @@ def postrequest(request, id_lis, current_user_id):
         change_skin(id_picture, current_user_id)
     else:
         add_skin(id_picture, current_user_id)
-
 
 
 def register_new_user(request):

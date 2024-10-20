@@ -243,6 +243,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+function closeAlert() {
+    const restartButton = document.getElementById('restart-container');
+    restartButton.style.display = 'block';
+
+    const alertContainer = document.getElementById('alert');
+    if (alertContainer) {
+        alertContainer.classList.remove('show');
+        // Удаляем алерт из DOM через время, чтобы завершить анимацию
+        setTimeout(() => {
+            alertContainer.remove();
+        }, 300);
+    }
+
+}
+
 // Функция для получения CSRF-токена из cookies
 function getCSRFToken() {
     const name = 'csrftoken';
