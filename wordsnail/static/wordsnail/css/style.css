@@ -30,9 +30,9 @@ body {
 
 
 .card {
-    background: rgba(0, 0, 0, 0.6); /* Белый фон карточек */
+    background: linear-gradient(135deg, #d3d3d3, #a9a9a9); /* Светло-серый цвет */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Тень для карточек *//
     backdrop-filter: blur(10px); /* Закругленные углы карточек */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Тень для карточек */
     overflow: hidden; /* Скрываем содержимое, выходящее за границы */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы */
     width: calc(30% - 20px); /* Ширина карточек для трёх в строке с учетом отступов */
@@ -41,7 +41,6 @@ body {
 
 .card:hover {
     transform: translateY(-10px); /* Поднимаем и увеличиваем карточку при наведении */
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Увеличиваем тень */
 }
 
 .card-img-top {
@@ -56,9 +55,8 @@ body {
 
 .card-title {
     font-size: 1.25rem; /* Размер заголовка карточки */
-    color: white;
     margin: 10px 0; /* Отступы сверху и снизу заголовка */
-    color: #333; /* Цвет текста заголовка */
+    color: #1c1c2b; /* Тёмно-синий текст */
 }
 
 @keyframes blobMorph {
@@ -159,16 +157,10 @@ h1 {
 }
 
 /* last merge */
-.dg {
-    font-size: 28px;
-    color: #99cc33;
-    font-weight: bold;
-    font-family: cursive;
+.logotype{
+    width: 50px;
+    height: auto;
 }
-.dg:hover {
-    text-decoration: none;
-}
-/* last merge end */
 
 
 .info {

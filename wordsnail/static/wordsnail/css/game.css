@@ -8,11 +8,51 @@
     margin-top: 30px;
 }
 
+.main-container {
+    display: flex; /* Устанавливаем flex-контейнер для выстраивания в строку */
+    align-items: flex-start; /* Выравнивание по верху */
+    justify-content: flex-start; /* Располагаем элементы в начале строки */
+    width: 100%; /* Ширина на всю страницу */
+    gap: 20px; /* Отступ между картинкой и игрой */
+    position: relative; /* Позволяет использовать абсолютное позиционирование внутри */
+}
+
+
+
+.image-container {
+    flex-shrink: 0;
+    margin: 20px; /* Отступы вокруг изображения */
+}
+
+/* Изображение */
+.game-image {
+    max-width: 150px; /* Максимальная ширина изображения */
+    width: 100%; /* Занимает 100% ширины контейнера */
+    height: auto; /* Сохраняем пропорции изображения */
+    object-fit: contain; /* Обеспечиваем правильное масштабирование */
+    border-radius: 10px; /* Скругляем углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Добавляем тень для объема */
+    border: 2px solid #e6e6e6; /* Лёгкая рамка вокруг изображения */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Анимация при наведении */
+}
+
+
+
+
+.game-container {
+    position: absolute; /* Абсолютное позиционирование */
+    left: 50%; /* Сдвигаем в 50% от левого края */
+    transform: translateX(-50%); /* Центрируем по горизонтали */
+    max-width: 600px; /* Ограничиваем максимальную ширину поля */
+    width: 100%; /* Занимает 100% доступного пространства до max-width */
+    margin-top: 30px; /* Отступ сверху для разделения с изображением */
+}
 .board {
     display: grid;
     gap: 20px;
     justify-content: center;
     margin-bottom: 20px;
+    max-width: 600px; /* Ограничиваем максимальную ширину поля */
 }
 
 .row {

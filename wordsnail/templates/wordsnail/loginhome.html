@@ -1,5 +1,9 @@
 {% extends 'wordsnail/base.html' %}
 
+{% block title %}
+    <title>Loginhome</title>
+{% endblock %}
+
 {% block yourhtml %}
     {% if user.is_authenticated %}
     Hi {{ user.username }}!
