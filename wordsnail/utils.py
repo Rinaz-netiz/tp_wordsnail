@@ -69,40 +69,6 @@ def getinfo(request):
             "skin": user_profile.current_skin}
 
 
-# def getinfo(request):
-#     """Получение информации о магазине и пользователе."""
-#
-#     def getinfo(user):
-#         try:
-#             things_in_shop = Shop.objects.all()
-#         except ObjectDoesNotExist:
-#             return {"code": -1,
-#                     "things_in_shop": [],
-#                     "user_id": 0,
-#                     "id_lis": [],
-#                     "money": -1,
-#                     "skin": ""}
-#
-#         current_user_id = user.id
-#         user_profile = user.profile
-#         id_lis = [el.id for el in user_profile.arr_skins.all()]
-#         return {"code": 1,
-#                 "things_in_shop": things_in_shop,
-#                 "user_id": current_user_id,
-#                 "id_lis": id_lis,
-#                 "money": user_profile.money,
-#                 "skin": user_profile.current_skin}
-
-
-def postrequest(request, id_lis, current_user_id):
-    ...
-    # id_picture = int(request.POST.get('act'))
-    # if id_picture in id_lis:
-    #     change_skin(id_picture, current_user_id)
-    # else:
-    #     add_skin(id_picture, current_user_id)
-
-
 def register_new_user(request):
     """Register new users"""
     form = RegisterUserForm(request.POST)
