@@ -147,3 +147,7 @@ def action_with_skins(user, data):
         response = change_skin(user.id, int(data.get("id")))
 
     return response
+
+
+def count_user():
+    return User.objects.count()
