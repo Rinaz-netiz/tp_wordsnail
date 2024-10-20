@@ -15,15 +15,14 @@
     {% block additional_css %}
     {% endblock %}
     <link rel="stylesheet" type="text/css" href="{% static 'wordsnail/css/style.css' %}">
-    <title>Document</title>
+    {% block title %}{% endblock %}
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Raleway:wght@400;700&family=Lobster&family=Merriweather:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo">
-
-            <a href="/" class="dg">W</a>
+            <a href="/" class="dg"><img class="logotype" src="{% static 'wordsnail/images/logotype.png' %}"></a>
         </div>
 <!--           <a href="{% url 'index' %}" ><img class="barimg" src="{{ user.profile.current_skin.url }}"  alt="W" /></a>-->
 <!--        </div>-->

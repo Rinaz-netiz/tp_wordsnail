@@ -6,6 +6,10 @@
 <link rel="stylesheet" type="text/css" href="{% static 'wordsnail/css/register.css' %}">
 {% endblock %}
 
+{% block title %}
+    <title>Register</title>
+{% endblock %}
+
 {% block yourhtml %}
     {% if messages and messages|length > 0 %}
         <ul class="register-messages">
