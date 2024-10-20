@@ -24,7 +24,7 @@
     <div class="card" style="width: 18rem; display: inline-block; margin-left: 30px">
         <img src="{{ el.picture.url }}" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title" style="color:white">{{el.title}}</h5>
+            <h5 class="card-title">{{el.title}}</h5>
             {% if user.profile.current_skin == el.picture %}
                 <button class="shopBt shopMy" type="submit" name="act" data-act="apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применено</button>
             {% elif el.id not in id_lis %}
