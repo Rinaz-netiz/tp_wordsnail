@@ -21,8 +21,12 @@
 
     <nav class="navbar">
         <div class="logo">
+
             <a href="/" class="dg">W</a>
         </div>
+           // <a href="{% url 'index' %}" ><img class="barimg" src="{{ user.profile.current_skin.url }}"  alt="W" /></a>
+        // </div>
+
         <div class="info">
 
             <a href="{% url 'shop' %}" class="shop">Shop</a>
@@ -36,6 +40,7 @@
         {% if user.is_authenticated %}
 
         <div class="user">
+
             <div class="user-icon">{{ user.username }}</div>
             <br>
             <form action="{% url 'logout' %}" method="post">

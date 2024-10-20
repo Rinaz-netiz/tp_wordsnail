@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let wordLen = 0;
     let countWrongAnswers = 0;
     let prize = 65;
+    let ratingSize = 45;
 
     // Запрашиваем случайное слово с сервера
     fetch('/api/random-word/')
@@ -92,31 +93,41 @@ document.addEventListener("DOMContentLoaded", () => {
         return (prize - prize%count) / count;
     }
 
+    function postRequest(moneyCount, ratingCount) {
+        const data = { 
+            money: moneyCount,
+            rating: ratingCount
+        }
+
+        fetch('/api/put-cash/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken() // Для защиты от CSRF-атак
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.code != 200)
+                console.log('Code:', data.code, "msg:", data.details); // Обработка ответа от сервера
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    } 
+
+
     function submitGuess() {
+        let is_send = 0;
+        let ratingResult = getRandomArbitrary(ratingSize/(countWrongAnswers+1) - ratingSize/2, ratingSize/(countWrongAnswers+1)-ratingSize/6);
+
         if (currentGuess === solution) {
             markRow("correct");
             // alert("Поздравляем! Вы угадали слово!");
-            showWinAlert();
+            showWinAlert(ratingResult);
             // message.textContent = "Поздравляем! Вы угадали слово!";
-            const data = { 
-                money: calculatingReward(countWrongAnswers)
-            }
-
-            fetch('/api/put-cash/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken() // Для защиты от CSRF-атак
-                },
-                body: JSON.stringify(data)
-            })
-            // .then(response => response.json())
-            // .then(data => {
-            //     console.log('Success:', data); // Обработка ответа от сервера
-            // })
-            // .catch((error) => {
-            //     console.error('Error:', error);
-            // });
+            is_send = 1;
 
             document.removeEventListener("keydown", handleKeyPress);
 
@@ -125,12 +136,21 @@ document.addEventListener("DOMContentLoaded", () => {
             if (++rowCount < 6) {
                 createEmptyRow();
                 currentGuess = "";
-                countWrongAnswers++;
+                ++countWrongAnswers;
             } else {
-                showLoseAlert()
+                showLoseAlert(ratingResult);
+                is_send = 1;
+                countWrongAnswers = 6;
                 // message.textContent = `Игра окончена! Загаданное слово: "${solution}".`;
                 document.removeEventListener("keydown", handleKeyPress);
             }
+        }
+
+        if(is_send) {
+            postRequest(
+                calculatingReward(countWrongAnswers), 
+                ratingResult
+            )
         }
     }
 
@@ -155,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    function showWinAlert() {
+    function showWinAlert(ratingResult) {
         // Создаем контейнер алерта
         const alertContainer = document.createElement('div');
         alertContainer.className = 'alert-container';
@@ -164,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="alert-content">
                 <h2>Вы победили!</h2>
                 <p>Ты просто unstoppable! Как настоящий clever boy, ты угадал слово и теперь можешь спокойно занять место у водителя!</p>
-                <p>Ваша награда: &#128012; ${calculatingReward(countWrongAnswers)}</p>
+                <p>Ваша награда: &#128012; ${calculatingReward(countWrongAnswers)} &#128081; ${ratingResult}</p>
                 <button onclick="closeAlert()">Закрыть</button>
 
                 <!-- Контейнер для кнопок "Домой" и "Магазин" -->
@@ -189,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
 
-    function showLoseAlert() {
+    function showLoseAlert(ratingResult) {
         const alertContainer = document.createElement('div');
         alertContainer.className = 'alert-container';
         alertContainer.id = 'alert';
@@ -198,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <h2>Вы проиграли!</h2>
                 <p>Кажется, wicked пассажиры оказались быстрее… Но не сдавайся! Еще одна попытка, и ты точно окажешься у руля.</p>
                 <p>Правильное слово: <strong>${solution}</storng></p>
-                <p>Ваша награда: &#128012; 0</p>
+                <p>Ваша награда: &#128012; 0 &#128081; ${ratingResult}</p>
                 <button onclick="closeAlert()">Закрыть</button>
 
                 <!-- Контейнер для кнопок "Домой" и "Магазин" -->
@@ -256,6 +276,11 @@ function getCSRFToken() {
     }
     return '';
 }
+
+function getRandomArbitrary(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+  }
+  
 
 
 function goHome() {

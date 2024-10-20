@@ -1,6 +1,6 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 
 from wordsnail.models import Shop, User, Profile
 from wordsnail.forms import RegisterUserForm
@@ -8,8 +8,12 @@ from wordsnail.forms import RegisterUserForm
 
 def add_skin(id_picture, current_user_id):
     """Функция добавляет юзеру скин"""
-    skin = Shop.objects.get(id=id_picture)
-    user = User.objects.get(id=current_user_id)
+    try:
+        skin = Shop.objects.get(id=id_picture)
+        user = User.objects.get(id=current_user_id)
+    except ObjectDoesNotExist:
+        return
+
     user_profile = user.profile
     if user_profile.money >= skin.price:
         user_profile.money -= skin.price
@@ -19,18 +23,36 @@ def add_skin(id_picture, current_user_id):
 
 def change_skin(id_picture, current_user_id):
     """Смена текущего скина"""
-    user = User.objects.get(id=current_user_id)
+    try:
+        user = User.objects.get(id=current_user_id)
+    except ObjectDoesNotExist:
+        return
+
     user_profile = user.profile
     user_profile.current_skin = Shop.objects.get(id=id_picture).picture
     user_profile.save()
 
 
 def getinfo(user):
-    things_in_shop = Shop.objects.all()
+    try:
+        things_in_shop = Shop.objects.all()
+    except ObjectDoesNotExist:
+        return {"code": -1,
+                "things_in_shop": [],
+                "user_id": 0,
+                "id_lis": [],
+                "money": -1,
+                "skin": ""}
+
     current_user_id = user.id
     user_profile = user.profile
     id_lis = [el.id for el in user_profile.arr_skins.all()]
-    return things_in_shop, current_user_id, id_lis, user_profile
+    return {"code": 1,
+            "things_in_shop": things_in_shop,
+            "user_id": current_user_id,
+            "id_lis": id_lis,
+            "money": user_profile.money,
+            "skin": user_profile.current_skin}
 
 
 def postrequest(request, id_lis, current_user_id):
@@ -54,19 +76,22 @@ def user_is_authenticated(request):
     return request.user.is_authenticated
 
 
-def balance_replenishment(user, money):
-    if not money:
-        return {"Code": 400, "details": "Money is empty"}
+def balance_replenishment_and_change_rating(user, money, rating):
+    if money is None:
+        return {"code": 400, "details": "Money is empty"}
+    if rating is None:
+        return {"code": 400, "details": "Rating is empty"}
 
     try:
         user = User.objects.get(id=user.id).profile
     except ImproperlyConfigured:
-        return {"Code": 500, "details": "ImproperlyConfigured"}
+        return {"code": 500, "details": "ImproperlyConfigured"}
 
     user.money += int(money)
+    user.rating += int(rating)
     user.save()
 
-    return {"Code": 200, "details": "All ok"}
+    return {"code": 200, "details": "All ok"}
 
 
 def order_by_rating(request):
@@ -89,5 +114,4 @@ def order_by_rating(request):
         except ImproperlyConfigured:
             pass
 
-    print(data)
     return data
