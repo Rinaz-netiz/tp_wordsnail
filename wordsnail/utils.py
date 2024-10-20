@@ -1,39 +1,44 @@
+import json
+
 from django.contrib.auth import login
-from django.shortcuts import redirect
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 
 from wordsnail.models import Shop, User, Profile
 from wordsnail.forms import RegisterUserForm
 
 
-def add_skin(id_picture, current_user_id):
+def buy_item_in_shop(user, skin, price):
     """Функция добавляет юзеру скин"""
     try:
-        skin = Shop.objects.get(id=id_picture)
-        user = User.objects.get(id=current_user_id)
+        user = User.objects.get(id=user.id)
     except ObjectDoesNotExist:
-        return
+        return {"code": 500, "details": "Couldn't get data"}
 
+    price = int(price)
     user_profile = user.profile
-    if user_profile.money >= skin.price:
-        user_profile.money -= skin.price
-        user_profile.arr_skins.add(skin)
+    if user_profile.money >= price:
+        user_profile.money -= price
+        user_profile.arr_skins.add(int(skin))
         user_profile.save()
 
+    return {"code": 200, "details": "the operation was successful"}
 
-def change_skin(id_picture, current_user_id):
+
+def change_skin(current_user_id, id_picture):
     """Смена текущего скина"""
     try:
         user = User.objects.get(id=current_user_id)
     except ObjectDoesNotExist:
-        return
+        return {"code": 500, "details": "objects is None"}
 
     user_profile = user.profile
     user_profile.current_skin = Shop.objects.get(id=id_picture).picture
     user_profile.save()
 
+    return {"code": 200, "details": "Skin changed"}
 
-def getinfo(user):
+
+def getinfo(request):
     try:
         things_in_shop = Shop.objects.all()
     except ObjectDoesNotExist:
@@ -44,6 +49,15 @@ def getinfo(user):
                 "money": -1,
                 "skin": ""}
 
+    if not user_is_authenticated(request):
+        return {"code": 1,
+                "things_in_shop": things_in_shop,
+                "user_id": -1,
+                "id_lis": [],
+                "money": 0,
+                "skin": 0}
+
+    user = request.user
     current_user_id = user.id
     user_profile = user.profile
     id_lis = [el.id for el in user_profile.arr_skins.all()]
@@ -55,13 +69,38 @@ def getinfo(user):
             "skin": user_profile.current_skin}
 
 
+# def getinfo(request):
+#     """Получение информации о магазине и пользователе."""
+#
+#     def getinfo(user):
+#         try:
+#             things_in_shop = Shop.objects.all()
+#         except ObjectDoesNotExist:
+#             return {"code": -1,
+#                     "things_in_shop": [],
+#                     "user_id": 0,
+#                     "id_lis": [],
+#                     "money": -1,
+#                     "skin": ""}
+#
+#         current_user_id = user.id
+#         user_profile = user.profile
+#         id_lis = [el.id for el in user_profile.arr_skins.all()]
+#         return {"code": 1,
+#                 "things_in_shop": things_in_shop,
+#                 "user_id": current_user_id,
+#                 "id_lis": id_lis,
+#                 "money": user_profile.money,
+#                 "skin": user_profile.current_skin}
+
+
 def postrequest(request, id_lis, current_user_id):
-    id_picture = int(request.POST.get('act'))
-    if id_picture in id_lis:
-        change_skin(id_picture, current_user_id)
-    else:
-        add_skin(id_picture, current_user_id)
-    return redirect('shop')
+    ...
+    # id_picture = int(request.POST.get('act'))
+    # if id_picture in id_lis:
+    #     change_skin(id_picture, current_user_id)
+    # else:
+    #     add_skin(id_picture, current_user_id)
 
 
 def register_new_user(request):
@@ -115,3 +154,30 @@ def order_by_rating(request):
             pass
 
     return data
+
+
+def process_post_request(request):
+    if not user_is_authenticated(request):
+        return {"code": 401, "details": "User doesn't authorization"}, None
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        return None, data
+    else:
+        return {"code": 400, "details": "Don't post request"}, None
+
+
+def action_with_skins(user, data):
+    act = data.get("act")
+
+    response = {"code": 400, "details": "data is None"}
+
+    if act is None:
+        return response
+
+    if act == "buy":
+        response = buy_item_in_shop(user, data.get("id"), data.get("price"))
+    elif act == "will_apply":
+        response = change_skin(user.id, int(data.get("id")))
+
+    return response

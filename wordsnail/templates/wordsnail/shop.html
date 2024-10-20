@@ -1,28 +1,47 @@
 {% extends 'wordsnail/base.html' %}
+{% load static %}
+
+{% block additional_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'wordsnail/css/alert.css' %}">
+{% endblock %}
 
 {% block yourhtml %}
 <div class="card-container">
-    {% for el in things_in_shop %}
+    <div id="alert" class="alert-container-shop">
+        <div class="alert-content">
+            <h2>Вы не можете купить товар, так как Вы не вошли в аккаунт!</h2>
+            <p>Войдите, чтобы покупать скины</p>
+            <button onclick="closeAlert()">Закрыть</button>
 
-
-    <div class="card" style="width: 18rem; display: inline-block;margin-left: 30px" >
-        <img src="{{ el.picture.url }}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title" style="color:white">{{el.title}}</h5>
-            <form method="post">
-                {% csrf_token %}
-                {% if user.profile.current_skin == el.picture %}
-                    <button class="shopMy" type="submit" name="act" value="{{el.id}}">Применено</button>
-                {% elif el.id not in id_lis %}
-                    <button class="shopBtn" type="submit" name="act" value="{{el.id}}">{{el.price}}$$</button>
-                {% else %}
-                    <button class="shopBtnHave" type="submit" name="act" value="{{el.id}}">Применить</button>
-                {% endif %}
-            </form>
+            <!-- Контейнер для кнопки "Входа" -->
+            <div class="button-container">
+                <button onclick="goLogin()">Войти</button>
+            </div>
         </div>
     </div>
 
+    {% for el in things_in_shop %}
+    <div class="card" style="width: 18rem; display: inline-block; margin-left: 30px">
+        <img src="{{ el.picture.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title" style="color:white">{{el.title}}</h5>
+            {% if user.profile.current_skin == el.picture %}
+                <button class="shopBt shopMy" type="submit" name="act" data-act="apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применено</button>
+            {% elif el.id not in id_lis %}
+                <button class="shopBt shopBtn" type="submit" name="act" data-act="buy" data-id="{{ el.id }}" data-price="{{ el.price }}">{{el.price}}$$</button>
+            {% else %}
+                <button class="shopBt shopBtnHave" type="submit" name="act" data-act="will_apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применить</button>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
 
-{% endfor %}
 </div>
+    <script>
+        const loginUrl = "{% url 'login' %}";
+        const userAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+    </script>
+    <script src="{% static 'wordsnail/js/script.js' %}"></script>
+    <script src="{% static 'wordsnail/js/shop.js' %}"></script>
+
 {% endblock %}

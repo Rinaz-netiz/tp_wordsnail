@@ -109,8 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => response.json())
         .then(data => {
-            if(data.code != 200)
+            if(data.code != 200) {
                 console.log('Code:', data.code, "msg:", data.details); // Обработка ответа от сервера
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -241,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
    
 });
 
-    
+
 function closeAlert() {
     const restartButton = document.getElementById('restart-container');
     restartButton.style.display = 'block';
@@ -257,30 +258,9 @@ function closeAlert() {
 
 }
 
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeAlert();
-    }
-});
-
-
-// Функция для получения CSRF-токена из cookies
-function getCSRFToken() {
-    const name = 'csrftoken';
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-        const trimmedCookie = cookie.trim();
-        if (trimmedCookie.startsWith(`${name}=`)) {
-            return trimmedCookie.substring(name.length + 1);
-        }
-    }
-    return '';
-}
-
 function getRandomArbitrary(min, max) {
     return Math.round(Math.random() * (max - min) + min);
   }
-  
 
 
 function goHome() {

@@ -11,7 +11,8 @@ from wordsnail.forms import RegisterUserForm
 from wordsnail.utils import (register_new_user, order_by_rating,
                              getinfo, postrequest,
                              balance_replenishment_and_change_rating,
-                             user_is_authenticated)
+                             user_is_authenticated, buy_item_in_shop,
+                             process_post_request, action_with_skins)
 from wordsnail.words_for_game import WORDS
 
 
@@ -23,7 +24,7 @@ __all__ = (
     "play",
     "get_random_word",
     "put_cash",
-    "loginhome"
+    "buy_item",
 )
 
 
@@ -31,17 +32,12 @@ def home(request):
     return render(request, "wordsnail/home.html")
 
 
-def loginhome(request):
-    return render(request, "wordsnail/loginhome.html")
-
-
 def register(request):
     if request.method == "POST":
         register_new_user(request)
-        messages.success(request, "Registration successful.")
-        redirect("index")
-    else:
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        return redirect("play")
+
+    messages.error(request, "Unsuccessful registration. Invalid information.")
 
     form = RegisterUserForm()
     return render(request, "registration/register.html", {'form': form})
@@ -52,18 +48,24 @@ def rating(request):
     return render(request, 'wordsnail/rating.html', data)
 
 
-def shop(request):  # страница магазина
-    if not user_is_authenticated(request):
-        return redirect('loginhome')
+def shop(request):
+    """Отображение страницы магазина."""
+    data = getinfo(request)
 
-    data = getinfo(request.user)
     if data["code"] == -1:
         return render(request, "wordsnail/shop.html")
 
-    if request.method == 'POST':
-        return postrequest(request, data["id_lis"], data["user_id"])
-
     return render(request, "wordsnail/shop.html", data)
+
+
+@csrf_exempt
+def buy_item(request):
+    error_response, data = process_post_request(request)
+    if error_response:
+        return JsonResponse(error_response)
+
+    response = action_with_skins(request.user, data)
+    return JsonResponse(response)
 
 
 def play(request):
@@ -77,15 +79,11 @@ def get_random_word(request):
 
 @csrf_exempt  # Это отключает проверку CSRF. Используй только в тестовых целях, в продакшене лучше настроить CSRF корректно.
 def put_cash(request):
-    if not user_is_authenticated(request):
-        return redirect("play")
+    error_response, data = process_post_request(request)
+    if error_response:
+        return JsonResponse(error_response)
 
-    if request.method == 'POST':
-        data = json.loads(request.body)  # Получаем данные из запроса
-        response = balance_replenishment_and_change_rating(request.user, data.get("money"), data.get("rating"))
-    else:
-        response = {"code": 400, "details": "Don't post request"}
-
+    response = balance_replenishment_and_change_rating(request.user, data.get("money"), data.get("rating"))
     return JsonResponse(response)
 
 
