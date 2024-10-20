@@ -28,7 +28,7 @@
             {% if user.profile.current_skin == el.picture %}
                 <button class="shopBt shopMy" type="submit" name="act" data-act="apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применено</button>
             {% elif el.id not in id_lis %}
-                <button class="shopBt shopBtn" type="submit" name="act" data-act="buy" data-id="{{ el.id }}" data-price="{{ el.price }}">{{el.price}}$$</button>
+                <button class="shopBt shopBtn" type="submit" name="act" data-act="buy" data-id="{{ el.id }}" data-price="{{ el.price }}">{{el.price}}&#128012</button>
             {% else %}
                 <button class="shopBt shopBtnHave" type="submit" name="act" data-act="will_apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применить</button>
             {% endif %}
