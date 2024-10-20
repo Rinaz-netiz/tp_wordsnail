@@ -21,32 +21,29 @@
     </div>
 
     {% for el in things_in_shop %}
-
-    <div class="card" style="width: 18rem; display: inline-block;margin-left: 30px" >
+    <div class="card" style="width: 18rem; display: inline-block; margin-left: 30px">
         <img src="{{ el.picture.url }}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title" style="color:white">{{el.title}}</h5>
-            <form method="post">
-                {% csrf_token %}
-                {% if user.profile.current_skin == el.picture %}
-                    <button class="shopMy" type="submit" name="act" value="{{el.id}}">Применено</button>
-                {% elif el.id not in id_lis %}
-                    <button class="shopBtn" type="submit" name="act" value="{{el.id}}">{{el.price}}$$</button>
-                {% else %}
-                    <button class="shopBtnHave" type="submit" name="act" value="{{el.id}}">Применить</button>
-                {% endif %}
-            </form>
+<!--            {{ user.profile.current_skin }}-->
+<!--            {{ el.picture }}-->
+            {% if user.profile.current_skin == el.picture %}
+                <button class="shopBt shopMy" type="submit" name="act" data-act="apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применено</button>
+            {% elif el.id not in id_lis %}
+                <button class="shopBt shopBtn" type="submit" name="act" data-act="buy" data-id="{{ el.id }}" data-price="{{ el.price }}">{{el.price}}$$</button>
+            {% else %}
+                <button class="shopBt shopBtnHave" type="submit" name="act" data-act="will_apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применить</button>
+            {% endif %}
         </div>
     </div>
+    {% endfor %}
 
-
-{% endfor %}
 </div>
     <script>
         const loginUrl = "{% url 'login' %}";
         const userAuthenticated = {{ code }};
     </script>
-    <script src="{% static 'wordsnail/js/shop.js' %}"></script>
     <script src="{% static 'wordsnail/js/script.js' %}"></script>
+    <script src="{% static 'wordsnail/js/shop.js' %}"></script>
 
 {% endblock %}

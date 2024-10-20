@@ -11,7 +11,8 @@ from wordsnail.forms import RegisterUserForm
 from wordsnail.utils import (register_new_user, order_by_rating,
                              getinfo, postrequest,
                              balance_replenishment_and_change_rating,
-                             user_is_authenticated)
+                             user_is_authenticated, buy_item_in_shop,
+                             process_post_request, action_with_skins)
 from wordsnail.words_for_game import WORDS
 
 
@@ -23,6 +24,7 @@ __all__ = (
     "play",
     "get_random_word",
     "put_cash",
+    "buy_item",
 )
 
 
@@ -49,18 +51,21 @@ def rating(request):
 def shop(request):
     """Отображение страницы магазина."""
     data = getinfo(request)
+    print(data)
     if data["code"] == -1:
         return render(request, "wordsnail/shop.html")
 
-    # Обработка POST-запроса
-    if request.method == 'POST':
-        if data["is_authenticated"]:
-            postrequest(request, data["id_lis"], data["user_id"])
-            return redirect('shop')
-        data["code"] = 2
-        return render(request, "wordsnail/shop.html", data)
-
     return render(request, "wordsnail/shop.html", data)
+
+
+@csrf_exempt
+def buy_item(request):
+    error_response, data = process_post_request(request)
+    if error_response:
+        return JsonResponse(error_response)
+
+    response = action_with_skins(request.user, data)
+    return JsonResponse(response)
 
 
 def play(request):
@@ -74,15 +79,11 @@ def get_random_word(request):
 
 @csrf_exempt  # Это отключает проверку CSRF. Используй только в тестовых целях, в продакшене лучше настроить CSRF корректно.
 def put_cash(request):
-    if not user_is_authenticated(request):
-        return JsonResponse({"code": 401, "details": "User doesn't authorization"})
+    error_response, data = process_post_request(request)
+    if error_response:
+        return JsonResponse(error_response)
 
-    if request.method == 'POST':
-        data = json.loads(request.body)  # Получаем данные из запроса
-        response = balance_replenishment_and_change_rating(request.user, data.get("money"), data.get("rating"))
-    else:
-        response = {"code": 400, "details": "Don't post request"}
-
+    response = balance_replenishment_and_change_rating(request.user, data.get("money"), data.get("rating"))
     return JsonResponse(response)
 
 
