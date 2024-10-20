@@ -5,30 +5,33 @@
     <link rel="stylesheet" type="text/css" href="{% static 'wordsnail/css/game.css' %}">
 {% endblock %}
 
-
 {% block yourhtml %}
-<div class="game-container">
-    <h1>Wordsnail Game</h1>
-    <div class="board" id="board">
-        <!-- Rows will be dynamically added using JavaScript -->
+<div class="main-container">
+    {% if user.is_authenticated %}
+    <div class="image-container">
+        <img src="{{ user.profile.current_skin.url }}" alt="Слава" class="game-image">
     </div>
-    <p id="message"></p>
+    {% endif %}
+    <div class="game-container">
+        <div class="content-container">
+            <div class="board-container">
+                <h1>Wordsnail Game</h1>
+                <div class="board" id="board">
+                    <!-- Rows will be dynamically added using JavaScript -->
+                </div>
+                <p id="message"></p>
 
-    <div id="restart-container">
-        <button onclick="restartGame()">Restart</button>
+                <div id="restart-container">
+                    <button onclick="restartGame()">Restart</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 <script>
     const shopUrl = "{% url 'shop' %}";
     const homeUrl = "{% url 'index' %}";
 </script>
 <script src="{% static 'wordsnail/js/script.js' %}"></script>
 <script src="{% static 'wordsnail/js/game.js' %}"></script>
-
-
 {% endblock %}
-
-
-
-
