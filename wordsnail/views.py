@@ -39,9 +39,9 @@ def register(request):
     if request.method == "POST":
         register_new_user(request)
         messages.success(request, "Registration successful.")
-        redirect("index")
-    else:
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        return redirect("play")
+
+    messages.error(request, "Unsuccessful registration. Invalid information.")
 
     form = RegisterUserForm()
     return render(request, "registration/register.html", {'form': form})
@@ -78,7 +78,7 @@ def get_random_word(request):
 @csrf_exempt  # Это отключает проверку CSRF. Используй только в тестовых целях, в продакшене лучше настроить CSRF корректно.
 def put_cash(request):
     if not user_is_authenticated(request):
-        return redirect("play")
+        return JsonResponse({"code": 401, "details": "User doesn't authorization"})
 
     if request.method == 'POST':
         data = json.loads(request.body)  # Получаем данные из запроса

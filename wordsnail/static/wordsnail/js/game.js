@@ -109,8 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => response.json())
         .then(data => {
-            if(data.code != 200)
+            if(data.code != 200) {
                 console.log('Code:', data.code, "msg:", data.details); // Обработка ответа от сервера
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
