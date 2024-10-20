@@ -158,33 +158,73 @@ h1 {
     display: block;
 }
 
+/* last merge */
+.dg {
+    font-size: 28px;
+    color: #99cc33;
+    font-weight: bold;
+    font-family: cursive;
+}
+.dg:hover {
+    text-decoration: none;
+}
+/* last merge end */
+
+
 .info {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: center; /* Центрирование по горизонтали */
+    gap: 20px; /* Расстояние между элементами */
     color: #333;
 }
 
-.stars, .shop, .rating {
-    font-size: 16px;
-    color: #333;
+.shop {
+   position: relative; /* Позволяет использовать свойства позиционирования */
+   left: 125px; /* Сдвигаем элемент вправо */
+}
+
+.rating {
+    position: relative; /* Позволяет использовать свойства позиционирования */
+    left: 125px; /* Сдвигаем элемент вправо */
+}
+
+.play {
+    position: relative; /* Позволяет использовать свойства позиционирования */
+    left: 125px; /* Сдвигаем элемент вправо */
 }
 
 .stars {
     color: #cc9966;
     font-weight: bold;
+    position: relative; /* Позволяет использовать свойства позиционирования */
+    left: 275px; /* Сдвигаем элемент вправо */
 }
 
+
 /* Убираем эффекты наведения для ссылок */
-.shop, .rating, .play{
-    text-decoration: none;
-    color: inherit; /* Цвет такой же, как у текста */
+.shop, .rating, .play {
+    display: inline-block; /* Позволяет использовать отступы и размеры */
+    background: linear-gradient(135deg, #a8e6a3, #d1e8d1); /* Светло-зеленый градиент */
+    color: #333; /* Цвет текста */
+    font-size: 16px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    padding: 10px 20px; /* Отступы вокруг текста */
+    border-radius: 30px; /* Закругленные углы */
+    text-decoration: none; /* Убираем подчеркивание */
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тень */
+    margin: 5px; /* Отступы между кнопками */
 }
 
 .shop:hover, .rating:hover, .play:hover {
+    background: linear-gradient(135deg, #76c700, #a4de02); /* Более насыщенный светло-зеленый градиент при наведении */
+    transform: translateY(-2px); /* Немного поднимаем кнопку при наведении */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Увеличиваем тень при наведении */
     text-decoration: none; /* Убираем подчёркивание при наведении */
     color: inherit;        /* Цвет не меняется */
 }
+
 
 .user {
     display: flex;
@@ -193,17 +233,47 @@ h1 {
 }
 
 
+/* last merge */
+.user-icon {
+    min-width: 40px; /* Увеличенная минимальная ширина */
+    padding: 10px; /* Увеличенные отступы для более круглой формы */
+    background: linear-gradient(135deg, #ccff33, #99cc33); /* Градиентный фон */
+    border-radius: 50%; /* Округлая форма */
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px; /* Увеличенный размер шрифта */
+    font-weight: bold;
+    color: black; /* Цвет текста */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для объема */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы */
+}
+
+.user-icon:hover {
+    transform: scale(1.1); /* Увеличение и подъем при наведении */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Увеличенная тень при наведении */
+}
+
+.button-container {
+    display: flex; /* Используем flexbox для управления размещением */
+    gap: 5px; /* Устанавливаем расстояние между кнопками */
+}
+/* last merge end */
+
 .button-link {
     display: inline-block; /* Позволяет использовать отступы и размеры */
-    background: linear-gradient(135deg, #6f86d6, #48c6ef); /* Градиентный фон */
-    color: white; /* Цвет текста */
-    font-size: 18px; /* Размер шрифта */
+    background: linear-gradient(135deg, #a8e6a3, #d1e8d1); /* Светло-зеленый градиент */
+    color: black; /* Цвет текста */
+    font-size: 14px; /* Размер шрифта */
     font-weight: bold; /* Жирный шрифт */
     padding: 10px 20px; /* Отступы внутри кнопки */
     text-align: center; /* Центрирование текста */
     border-radius: 30px; /* Закругленные углы */
     text-decoration: none; /* Убираем подчеркивание */
     transition: background 0.3s ease, transform 0.3s ease; /* Плавный переход */
+    margin: 0; /* Убираем отступы между кнопками */
+
 }
 
 .button-link:hover {
@@ -214,7 +284,7 @@ h1 {
 
 
 
-
+/* last merge */
 .container {
     display: flex;
     justify-content: space-between;

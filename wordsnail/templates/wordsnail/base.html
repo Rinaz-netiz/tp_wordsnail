@@ -21,24 +21,39 @@
 
     <nav class="navbar">
         <div class="logo">
-            <a href="{% url 'index' %}" ><img class="barimg" src="{{ user.profile.current_skin.url }}"  alt="W" /></a>
+
+            <a href="/" class="dg">W</a>
         </div>
+           // <a href="{% url 'index' %}" ><img class="barimg" src="{{ user.profile.current_skin.url }}"  alt="W" /></a>
+        // </div>
 
         <div class="info">
-            <span class="stars">{{ user.profile.money }}✨</span>
-            <a href="{% url 'shop' %}" class="shop">Shop</a>
-            <a href="{% url 'rating' %}" class="rating">Rating</a>  <!-- Ссылка на страницу Rating-->
-            <a href="{% url 'play' %}" class="play">Play</a>  <!-- Ссылка на страницу игры -->
 
+            <a href="{% url 'shop' %}" class="shop">Shop</a>
+            <a href="{% url 'play' %}" class="play">Play</a>
+            <a href="{% url 'rating' %}" class="rating">Rating</a>
+             <!-- Ссылка на страницу игры -->
+            {% if user.is_authenticated %}
+            <span class="stars">{{ user.profile.money }}&#128012</span>
+            {% endif %}
         </div>
         {% if user.is_authenticated %}
 
         <div class="user">
-            <a href="{% url 'loginhome' %}" class="button-link">{{ user.username }}</a> <!-- Сделать выход нада -->
+
+            <div class="user-icon">{{ user.username }}</div>
+            <br>
+            <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="button-link">Log Out</button>
+</form>
 
         </div>
         {% else %}
-        <a href="{% url 'loginhome' %}" class="button-link">Войти</a> <!-- побыстрее как то -->
+        <div class="button-container">
+        <a href="{% url 'register' %}" class="button-link">Registration</a>
+        <a href="{% url 'login' %}" class="button-link">Log in</a>
+    </div>
         {% endif %}
     </nav>
 
