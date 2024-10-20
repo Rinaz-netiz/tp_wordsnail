@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
+    if (userAuthenticated == 2) {
+        showAlert();
+    }
+
     const cards = document.querySelectorAll('.card');
 
     cards.forEach((card, index) => {
@@ -6,6 +10,15 @@ document.addEventListener("DOMContentLoaded", function() {
         card.style.animationDelay = `${index * 0.2}s`; // 0.2 секунды между появлениями
     });
 });
+
+
+function showAlert() {
+    console.log("alert");
+    const alertContainer = document.getElementById('alert');
+    if (alertContainer) {
+        alertContainer.classList.add('show');
+    }
+}
 
 function closeAlert() {
     const alertContainer = document.getElementById('alert');

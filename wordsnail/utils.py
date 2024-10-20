@@ -33,33 +33,35 @@ def change_skin(id_picture, current_user_id):
 
 
 def getinfo(request):
+    """Получение информации о магазине и пользователе."""
     try:
         things_in_shop = Shop.objects.all()
     except ObjectDoesNotExist:
-        return {"code": -1,
-                "things_in_shop": [],
-                "user_id": 0,
-                "id_lis": [],
-                "money": -1,
-                "skin": ""}
-    if not user_is_authenticated(request):
-        return {"code": 0,
-                "things_in_shop": things_in_shop,
-                "user_id": -1,
-                "id_lis": [],
-                "money": -1,
-                "skin": ""}
+        return {"code": -1}
 
-    user = request.user
-    current_user_id = user.id
-    user_profile = user.profile
-    id_lis = [el.id for el in user_profile.arr_skins.all()]
-    return {"code": 1,
+    # Если пользователь не авторизован
+    if not user_is_authenticated(request):
+        return {
+            "code": 1,
             "things_in_shop": things_in_shop,
-            "user_id": current_user_id,
-            "id_lis": id_lis,
-            "money": user_profile.money,
-            "skin": user_profile.current_skin}
+            "user_id": -1,
+            "id_lis": [],
+            "money": -1,
+            "skin": "",
+            "is_authenticated": False,
+        }
+
+    # Если пользователь авторизован
+    user_profile = request.user.profile
+    return {
+        "code": 1,
+        "things_in_shop": things_in_shop,
+        "user_id": request.user.id,
+        "id_lis": list(user_profile.arr_skins.values_list('id', flat=True)),
+        "money": user_profile.money,
+        "skin": user_profile.current_skin,
+        "is_authenticated": True,
+    }
 
 
 def postrequest(request, id_lis, current_user_id):

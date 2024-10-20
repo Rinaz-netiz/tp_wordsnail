@@ -46,16 +46,17 @@ def rating(request):
     return render(request, 'wordsnail/rating.html', data)
 
 
-def shop(request):  # страница магазина
+def shop(request):
+    """Отображение страницы магазина."""
     data = getinfo(request)
     if data["code"] == -1:
         return render(request, "wordsnail/shop.html")
 
+    # Обработка POST-запроса
     if request.method == 'POST':
-        if user_is_authenticated(request):
+        if data["is_authenticated"]:
             postrequest(request, data["id_lis"], data["user_id"])
             return redirect('shop')
-
         data["code"] = 2
         return render(request, "wordsnail/shop.html", data)
 
