@@ -25,8 +25,6 @@
         <img src="{{ el.picture.url }}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title" style="color:white">{{el.title}}</h5>
-<!--            {{ user.profile.current_skin }}-->
-<!--            {{ el.picture }}-->
             {% if user.profile.current_skin == el.picture %}
                 <button class="shopBt shopMy" type="submit" name="act" data-act="apply" data-id="{{ el.id }}" data-price="{{ el.price }}">Применено</button>
             {% elif el.id not in id_lis %}
@@ -41,7 +39,7 @@
 </div>
     <script>
         const loginUrl = "{% url 'login' %}";
-        const userAuthenticated = {{ code }};
+        const userAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
     </script>
     <script src="{% static 'wordsnail/js/script.js' %}"></script>
     <script src="{% static 'wordsnail/js/shop.js' %}"></script>

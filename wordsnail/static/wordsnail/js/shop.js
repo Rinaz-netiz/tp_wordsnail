@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    if (userAuthenticated == 2) {
-        showAlert();
-    }
-
     const cards = document.querySelectorAll('.card');
 
     cards.forEach((card, index) => {
@@ -29,36 +25,35 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function handlePurchase(itemId, itemPrice, action) {
-    if (confirm(`Вы хотите купить товар за ${itemPrice}$$?`)) {
-        // Пример AJAX-запроса
-        fetch('api/buy-item/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken(),  // Не забудьте добавить CSRF-токен
-            },
-            body: JSON.stringify({ id: itemId, price: itemPrice, act: action }),
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Покупка успешно завершена');
+    // Пример AJAX-запроса
+    fetch('api/buy-item/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken(),  // Не забудьте добавить CSRF-токен
+        },
+        body: JSON.stringify({ id: itemId, price: itemPrice, act: action }),
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Покупка успешно завершена');
 
-                window.location.href = window.location.pathname;;
-            } else {
-                console.error('Ошибка при покупке');
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-        });
-    }
+            window.location.href = window.location.pathname;;
+        } else {
+            console.error('Ошибка при покупке');
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
 }
 
 
+
 function showAlert() {
-    console.log("alert");
     const alertContainer = document.getElementById('alert');
     if (alertContainer) {
+        alertContainer.style.display = 'block';
         alertContainer.classList.add('show');
     }
 }
@@ -67,12 +62,10 @@ function closeAlert() {
     const alertContainer = document.getElementById('alert');
     if (alertContainer) {
         alertContainer.classList.remove('show');
-        // Удаляем алерт из DOM через время, чтобы завершить анимацию
+        // Скрываем алерт вместо его удаления
         setTimeout(() => {
-            alertContainer.remove();
+            alertContainer.style.display = 'none';
         }, 300);
-
-        window.location.href = window.location.pathname;
     }
 }
 

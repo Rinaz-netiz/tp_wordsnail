@@ -51,7 +51,7 @@ def rating(request):
 def shop(request):
     """Отображение страницы магазина."""
     data = getinfo(request)
-    print(data)
+
     if data["code"] == -1:
         return render(request, "wordsnail/shop.html")
 

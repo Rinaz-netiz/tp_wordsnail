@@ -49,6 +49,14 @@ def getinfo(request):
                 "money": -1,
                 "skin": ""}
 
+    if not user_is_authenticated(request):
+        return {"code": 1,
+                "things_in_shop": things_in_shop,
+                "user_id": -1,
+                "id_lis": [],
+                "money": 0,
+                "skin": 0}
+
     user = request.user
     current_user_id = user.id
     user_profile = user.profile
@@ -59,6 +67,7 @@ def getinfo(request):
             "id_lis": id_lis,
             "money": user_profile.money,
             "skin": user_profile.current_skin}
+
 
 # def getinfo(request):
 #     """Получение информации о магазине и пользователе."""
