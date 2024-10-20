@@ -1,9 +1,25 @@
 {% extends 'wordsnail/base.html' %}
+{% load static %}
 
 {% block yourhtml %}
 <div class="card-container">
-    {% for el in things_in_shop %}
+    {% if code == 2 %}
+    <div id="alert" class="alert-container-shop">
+        <div class="alert-content">
+            <h2>Вы не можете купить товар, так как Вы не вошли в аккаунт!</h2>
+            <p>Войдите, чтобы покупать скины</p>
+            <button onclick="closeAlert()">Закрыть</button>
 
+            <!-- Контейнер для кнопки "Входа" и "Магазин" -->
+            <div class="button-container">
+                <button onclick="goLogin()">Войти</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+    {% for el in things_in_shop %}
 
     <div class="card" style="width: 18rem; display: inline-block;margin-left: 30px" >
         <img src="{{ el.picture.url }}" class="card-img-top" alt="...">
@@ -25,4 +41,8 @@
 
 {% endfor %}
 </div>
+    <script>
+        const loginUrl = "{% url 'login' %}"
+    </script>
+    <script src="{% static 'wordsnail/js/script.js' %}"></script>
 {% endblock %}

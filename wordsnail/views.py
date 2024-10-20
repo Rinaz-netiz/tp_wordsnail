@@ -23,7 +23,6 @@ __all__ = (
     "play",
     "get_random_word",
     "put_cash",
-    "loginhome"
 )
 
 
@@ -31,14 +30,9 @@ def home(request):
     return render(request, "wordsnail/home.html")
 
 
-def loginhome(request):
-    return render(request, "wordsnail/loginhome.html")
-
-
 def register(request):
     if request.method == "POST":
         register_new_user(request)
-        messages.success(request, "Registration successful.")
         return redirect("play")
 
     messages.error(request, "Unsuccessful registration. Invalid information.")
@@ -53,15 +47,17 @@ def rating(request):
 
 
 def shop(request):  # страница магазина
-    if not user_is_authenticated(request):
-        return redirect('loginhome')
-
-    data = getinfo(request.user)
+    data = getinfo(request)
     if data["code"] == -1:
         return render(request, "wordsnail/shop.html")
 
     if request.method == 'POST':
-        return postrequest(request, data["id_lis"], data["user_id"])
+        if user_is_authenticated(request):
+            postrequest(request, data["id_lis"], data["user_id"])
+            return redirect('shop')
+
+        data["code"] = 2
+        return render(request, "wordsnail/shop.html", data)
 
     return render(request, "wordsnail/shop.html", data)
 

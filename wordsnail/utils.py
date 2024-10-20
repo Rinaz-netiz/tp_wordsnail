@@ -33,7 +33,7 @@ def change_skin(id_picture, current_user_id):
     user_profile.save()
 
 
-def getinfo(user):
+def getinfo(request):
     try:
         things_in_shop = Shop.objects.all()
     except ObjectDoesNotExist:
@@ -43,7 +43,15 @@ def getinfo(user):
                 "id_lis": [],
                 "money": -1,
                 "skin": ""}
+    if not user_is_authenticated(request):
+        return {"code": 0,
+                "things_in_shop": things_in_shop,
+                "user_id": -1,
+                "id_lis": [],
+                "money": -1,
+                "skin": ""}
 
+    user = request.user
     current_user_id = user.id
     user_profile = user.profile
     id_lis = [el.id for el in user_profile.arr_skins.all()]
@@ -61,7 +69,7 @@ def postrequest(request, id_lis, current_user_id):
         change_skin(id_picture, current_user_id)
     else:
         add_skin(id_picture, current_user_id)
-    return redirect('shop')
+
 
 
 def register_new_user(request):
