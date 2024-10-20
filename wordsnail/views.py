@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from wordsnail.forms import RegisterUserForm
 from wordsnail.utils import (register_new_user, order_by_rating,
                              getinfo, balance_replenishment_and_change_rating,
-                             process_post_request, action_with_skins)
+                             process_post_request, action_with_skins, count_user)
 from wordsnail.words_for_game import WORDS
 
 
@@ -26,7 +26,7 @@ __all__ = (
 
 
 def home(request):
-    return render(request, "wordsnail/home.html")
+    return render(request, "wordsnail/home.html", {"count_user": count_user()})
 
 
 def register(request):

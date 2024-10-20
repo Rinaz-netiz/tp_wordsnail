@@ -40,7 +40,7 @@ def change_skin(current_user_id, id_picture):
 
 def getinfo(request):
     try:
-        things_in_shop = Shop.objects.all()
+        things_in_shop = Shop.objects.all().order_by("price")
     except ObjectDoesNotExist:
         return {"code": -1,
                 "things_in_shop": [],
@@ -147,3 +147,7 @@ def action_with_skins(user, data):
         response = change_skin(user.id, int(data.get("id")))
 
     return response
+
+
+def count_user():
+    return User.objects.count()
